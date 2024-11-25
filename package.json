@@ -1,8 +1,9 @@
 {
   "name": "bluesky-comments",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Embed Bluesky comments on your website",
-  "main": "dist/bluesky-comments.js",
+  "main": "./dist/bluesky-comments.umd.js",
+  "module": "./dist/bluesky-comments.es.js",
   "files": [
     "dist"
   ],
@@ -40,5 +41,12 @@
   "bugs": {
     "url": "https://github.com/czue/bluesky-comments/issues"
   },
-  "homepage": "https://github.com/czue/bluesky-comments#readme"
+  "homepage": "https://github.com/czue/bluesky-comments#readme",
+  "exports": {
+    ".": {
+      "import": "./dist/bluesky-comments.es.js",
+      "require": "./dist/bluesky-comments.umd.js"
+    },
+    "./style.css": "./dist/bluesky-comments.css"
+  }
 }
