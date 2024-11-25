@@ -1,20 +1,44 @@
 {
-  "name": "_javascript",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "bluesky-comments",
+  "version": "0.1.0",
+  "description": "Embed Bluesky comments on your website",
+  "main": "dist/bluesky-comments.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "vite build",
-    "watch": "vite build --watch"
+    "watch": "vite build --watch",
+    "prepublishOnly": "npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "bluesky",
+    "comments",
+    "atproto",
+    "react",
+    "social"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
   "dependencies": {
     "@atproto/api": "^0.13.18",
-    "@vitejs/plugin-react": "^4.3.3",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.3",
     "vite": "^5.4.11"
-  }
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/bluesky-comments.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/bluesky-comments/issues"
+  },
+  "homepage": "https://github.com/yourusername/bluesky-comments#readme"
 }

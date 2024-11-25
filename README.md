@@ -1,2 +1,9 @@
-# bluesky-comments
-Add a comments thread to any page using bluesky.
+# Bluesky Comments
+
+Embed Bluesky comments on your website easily.
+
+## Installation
+
+```bash
+npm install bluesky-comments
+```
