@@ -3,6 +3,10 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    // This adds a global process.env object which prevents errors
+    'process.env': {},
+  },
   build: {
     lib: {
       entry: 'src/main.jsx',
