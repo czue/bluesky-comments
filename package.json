@@ -45,7 +45,8 @@
   "exports": {
     ".": {
       "import": "./dist/bluesky-comments.es.js",
-      "require": "./dist/bluesky-comments.umd.js"
+      "require": "./dist/bluesky-comments.umd.js",
+      "default": "./dist/bluesky-comments.umd.js"
     },
     "./style.css": "./dist/bluesky-comments.css"
   }
