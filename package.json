@@ -18,7 +18,7 @@
     "react",
     "social"
   ],
-  "author": "Your Name",
+  "author": "Cory Zue",
   "license": "MIT",
   "dependencies": {
     "@atproto/api": "^0.13.18",
@@ -35,10 +35,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/bluesky-comments.git"
+    "url": "git+https://github.com/czue/bluesky-comments.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/bluesky-comments/issues"
+    "url": "https://github.com/czue/bluesky-comments/issues"
   },
-  "homepage": "https://github.com/yourusername/bluesky-comments#readme"
+  "homepage": "https://github.com/czue/bluesky-comments#readme"
 }
