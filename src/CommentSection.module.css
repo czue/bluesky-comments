@@ -99,15 +99,16 @@
   -webkit-box-orient: vertical;
 }
 
-a {
+.container a {
   text-decoration: none;
   color: inherit;
 }
 
-a:hover {
+.container a:hover {
   text-decoration: none;
 }
-.handle {
+
+.commentContent .handle {
   color: #6b7280;
 }
 
