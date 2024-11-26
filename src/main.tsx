@@ -7,16 +7,9 @@ type CommentOptions =
   | { uri?: string; author: string };
 
 // Create a global function to initialize the comments
-console.log('Initializing Bluesky comments ts');
 window.initBlueskyComments = (elementId: string, options: CommentOptions) => {
-  console.log("inside init", options)
   const element = document.getElementById(elementId)
   if (!element) return;
-
-  console.log('Rendering Bluesky comments with config:', {
-    elementId,
-    ...options,
-  });
 
   ReactDOM.createRoot(element).render(
     <React.StrictMode>

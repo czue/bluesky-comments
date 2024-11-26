@@ -243,7 +243,6 @@ const Actions = ({ post }: { post: AppBskyFeedDefs.PostView }) => (
 );
 
 const getPostThread = async (uri: string) => {
-  console.log('fetching thread', uri);
   const atUri = formatUri(uri);
   const params = new URLSearchParams({ uri: atUri });
 
