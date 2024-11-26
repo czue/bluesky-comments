@@ -48,6 +48,10 @@
       "import": "./src/main.jsx",
       "require": "./dist/bluesky-comments.umd.js"
     },
+    "./CommentSection": {
+      "import": "./src/CommentSection.tsx",
+      "require": "./dist/bluesky-comments.umd.js"
+    },
     "./style.css": "./dist/bluesky-comments.css"
   },
   "type": "module"
