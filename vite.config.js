@@ -10,7 +10,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/main.jsx'),
+      entry: path.resolve(__dirname, 'src/main.tsx'),
       name: 'BlueskyComments',
       formats: ['es', 'umd'],
       fileName: (format) => `bluesky-comments.${format}.js`

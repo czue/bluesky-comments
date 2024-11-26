@@ -7,7 +7,8 @@ import {
 } from "@atproto/api";
 import styles from './CommentSection.module.css';
 interface Props {
-  author: string;
+  uri?: string;
+  author?: string;
 }
 
 type Reply = {
@@ -27,35 +28,56 @@ type Thread = {
     replyCount?:number;
   };
 };
+const formatUri = (uri: string): string => {
+  console.log('formatting uri', uri);
+  if (!uri.startsWith('at://') && uri.includes('bsky.app/profile/')) {
+    const match = uri.match(/profile\/([\w.]+)\/post\/([\w]+)/);
+    if (match) {
+      const [, did, postId] = match;
+      console.log('reformatted uri', `at://${did}/app.bsky.feed.post/${postId}`);
+      return `at://${did}/app.bsky.feed.post/${postId}`;
+    }
+  }
+  console.log('reformatted uri', uri);
+  return uri;
+};
 
-export const CommentSection = ({ author }: Props) => {
+
+export const CommentSection = ({ uri: propUri, author }: Props) => {
   const [uri, setUri] = useState<string | null>(null);
   const [thread, setThread] = useState<Thread | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
-    const fetchPost = async () => {
-      const currentUrl = window.location.href;
-      const apiUrl = `https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=*&url=${encodeURIComponent(currentUrl)}&author=${author}`;
+    if (propUri) {
+      setUri(propUri);
+      return;
+    }
 
-      try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
+    if (author) {
+      const fetchPost = async () => {
+        const currentUrl = window.location.href;
+        const apiUrl = `https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=*&url=${encodeURIComponent(currentUrl)}&author=${author}`;
 
-        if (data.posts && data.posts.length > 0) {
-          const post = data.posts[0];
-          setUri(post.uri);
-        } else {
-          setError('No matching post found');
+        try {
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+
+          if (data.posts && data.posts.length > 0) {
+            const post = data.posts[0];
+            setUri(post.uri);
+          } else {
+            setError('No matching post found');
+          }
+        } catch (err) {
+          setError('Error fetching post');
         }
-      } catch (err) {
-        setError('Error fetching post');
-      }
-    };
+      };
 
-    fetchPost();
-  }, [author]);
+      fetchPost();
+    }
+  }, [propUri, author]);
 
   useEffect(() => {
     if (uri) {
@@ -221,7 +243,9 @@ const Actions = ({ post }: { post: AppBskyFeedDefs.PostView }) => (
 );
 
 const getPostThread = async (uri: string) => {
-  const params = new URLSearchParams({ uri });
+  console.log('fetching thread', uri);
+  const atUri = formatUri(uri);
+  const params = new URLSearchParams({ uri: atUri });
 
   const res = await fetch(
     "https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?" +
