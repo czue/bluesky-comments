@@ -6,9 +6,9 @@ import {
   type AppBskyFeedGetPostThread,
 } from "@atproto/api";
 import styles from './CommentSection.module.css';
-
 interface Props {
   uri?: string;
+  author?: string;
 }
 
 type Reply = {
@@ -28,31 +28,76 @@ type Thread = {
     replyCount?:number;
   };
 };
-
-
-// Function to fetch the thread data
-const fetchThreadData = async (uri, setThread, setError) => {
-  try {
-    const thread = await getPostThread(uri);
-    setThread(thread);
-  } catch (err) {
-    setError('Error loading comments');
+const formatUri = (uri: string): string => {
+  console.log('formatting uri', uri);
+  if (!uri.startsWith('at://') && uri.includes('bsky.app/profile/')) {
+    const match = uri.match(/profile\/([\w.]+)\/post\/([\w]+)/);
+    if (match) {
+      const [, did, postId] = match;
+      console.log('reformatted uri', `at://${did}/app.bsky.feed.post/${postId}`);
+      return `at://${did}/app.bsky.feed.post/${postId}`;
+    }
   }
+  console.log('reformatted uri', uri);
+  return uri;
 };
 
-export const CommentSection = ({ uri }) => {
-  if (!uri) return <div />;
 
-  const [, , did, _, rkey] = uri.split("/");
-  const postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
-
+export const CommentSection = ({ uri: propUri, author }: Props) => {
+  const [uri, setUri] = useState<string | null>(null);
   const [thread, setThread] = useState<Thread | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
-    fetchThreadData(uri, setThread, setError);
+    if (propUri) {
+      setUri(propUri);
+      return;
+    }
+
+    if (author) {
+      const fetchPost = async () => {
+        const currentUrl = window.location.href;
+        const apiUrl = `https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=*&url=${encodeURIComponent(currentUrl)}&author=${author}`;
+
+        try {
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+
+          if (data.posts && data.posts.length > 0) {
+            const post = data.posts[0];
+            setUri(post.uri);
+          } else {
+            setError('No matching post found');
+          }
+        } catch (err) {
+          setError('Error fetching post');
+        }
+      };
+
+      fetchPost();
+    }
+  }, [propUri, author]);
+
+  useEffect(() => {
+    if (uri) {
+      const fetchThreadData = async () => {
+        try {
+          const thread = await getPostThread(uri);
+          setThread(thread);
+        } catch (err) {
+          setError('Error loading comments');
+        }
+      };
+
+      fetchThreadData();
+    }
   }, [uri]);
+
+  if (!uri) return null;
+
+  const [, , did, _, rkey] = uri.split("/");
+  const postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
 
   if (error) {
     return <p className={styles.errorText}>{error}</p>;
@@ -198,7 +243,9 @@ const Actions = ({ post }: { post: AppBskyFeedDefs.PostView }) => (
 );
 
 const getPostThread = async (uri: string) => {
-  const params = new URLSearchParams({ uri });
+  console.log('fetching thread', uri);
+  const atUri = formatUri(uri);
+  const params = new URLSearchParams({ uri: atUri });
 
   const res = await fetch(
     "https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?" +

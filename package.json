@@ -1,6 +1,6 @@
 {
   "name": "bluesky-comments",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Embed Bluesky comments on your website",
   "main": "./dist/bluesky-comments.umd.js",
   "module": "./dist/bluesky-comments.es.js",
@@ -47,6 +47,11 @@
       "import": "./dist/bluesky-comments.es.js",
       "require": "./dist/bluesky-comments.umd.js"
     },
+    "./CommentSection": {
+      "import": "./dist/CommentSection.es.js",
+      "require": "./dist/CommentSection.umd.js"
+    },
     "./style.css": "./dist/bluesky-comments.css"
-  }
+  },
+  "type": "module"
 }
