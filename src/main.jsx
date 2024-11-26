@@ -16,12 +16,11 @@ const initBlueskyComments = async (elementId, author) => {
 
       if (data.posts && data.posts.length > 0) {
         const post = data.posts[0];
-        const formattedUri = `at://${post.author.did}/app.bsky.feed.post/${post.cid}`;
 
-        console.log('Rendering Bluesky comments for URI:', formattedUri);
+        console.log('Rendering Bluesky comments for URI:', post.uri);
         ReactDOM.createRoot(element).render(
           <React.StrictMode>
-            <CommentSection uri={formattedUri} />
+            <CommentSection uri={post.uri} />
           </React.StrictMode>
         )
       } else {
