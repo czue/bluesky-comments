@@ -29,11 +29,27 @@ Embed Bluesky comments on your website easily.
   document.addEventListener('DOMContentLoaded', function() {
     const uri = 'https://bsky.social/coryzue.com/posts/3jxgux';
     if (uri) {
-      initBlueskyComments('bluesky-comments', uri);
+      initBlueskyComments('bluesky-comments', {uri});
     }
   });
 </script>
 ```
+
+Or by passing the author:
+
+```html
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const author = 'coryzue.com';
+    if (author) {
+      initBlueskyComments('bluesky-comments', {author});
+    }
+  });
+</script>
+```
+
+If you use this mode, it will use the most popular post by that author that links
+to the current page.
 
 ## Installation with npm
 
