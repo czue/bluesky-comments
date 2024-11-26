@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
@@ -9,7 +10,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: 'src/main.jsx',
+      entry: path.resolve(__dirname, 'src/main.jsx'),
       name: 'BlueskyComments',
       formats: ['es', 'umd'],
       fileName: (format) => `bluesky-comments.${format}.js`
@@ -30,5 +31,10 @@ export default defineConfig({
     },
     outDir: 'dist',
     sourcemap: true
+  },
+  resolve: {
+    alias: {
+      './CommentSection': path.resolve(__dirname, 'src/CommentSection.jsx')
+    }
   }
 })

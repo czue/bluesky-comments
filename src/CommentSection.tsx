@@ -6,9 +6,8 @@ import {
   type AppBskyFeedGetPostThread,
 } from "@atproto/api";
 import styles from './CommentSection.module.css';
-
 interface Props {
-  uri?: string;
+  author: string;
 }
 
 type Reply = {
@@ -29,30 +28,54 @@ type Thread = {
   };
 };
 
-
-// Function to fetch the thread data
-const fetchThreadData = async (uri, setThread, setError) => {
-  try {
-    const thread = await getPostThread(uri);
-    setThread(thread);
-  } catch (err) {
-    setError('Error loading comments');
-  }
-};
-
-export const CommentSection = ({ uri }) => {
-  if (!uri) return <div />;
-
-  const [, , did, _, rkey] = uri.split("/");
-  const postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
-
+export const CommentSection = ({ author }: Props) => {
+  const [uri, setUri] = useState<string | null>(null);
   const [thread, setThread] = useState<Thread | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(3);
 
   useEffect(() => {
-    fetchThreadData(uri, setThread, setError);
+    const fetchPost = async () => {
+      const currentUrl = window.location.href;
+      const apiUrl = `https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=*&url=${encodeURIComponent(currentUrl)}&author=${author}`;
+
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.posts && data.posts.length > 0) {
+          const post = data.posts[0];
+          setUri(post.uri);
+        } else {
+          setError('No matching post found');
+        }
+      } catch (err) {
+        setError('Error fetching post');
+      }
+    };
+
+    fetchPost();
+  }, [author]);
+
+  useEffect(() => {
+    if (uri) {
+      const fetchThreadData = async () => {
+        try {
+          const thread = await getPostThread(uri);
+          setThread(thread);
+        } catch (err) {
+          setError('Error loading comments');
+        }
+      };
+
+      fetchThreadData();
+    }
   }, [uri]);
+
+  if (!uri) return null;
+
+  const [, , did, _, rkey] = uri.split("/");
+  const postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
 
   if (error) {
     return <p className={styles.errorText}>{error}</p>;
