@@ -42,3 +42,17 @@ npm install bluesky-comments
 ```
 
 I don't publish a lot of JavaScript packages, but I think you can import it by doing this!
+
+
+## Development
+
+To develop on this package, you can run:
+
+```
+npm install
+npm run watch
+```
+
+This will watch for changes and copy the built files to the `dist` directory.
+From there you can reference the files in your own project and any updates you make
+should show up instantly.
