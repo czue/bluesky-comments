@@ -33,4 +33,4 @@ const initBlueskyComments = async (elementId, author) => {
   }
 }
 
-export { initBlueskyComments };
+export default initBlueskyComments;

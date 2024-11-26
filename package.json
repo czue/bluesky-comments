@@ -2,6 +2,7 @@
   "name": "bluesky-comments",
   "version": "0.3.0",
   "description": "Embed Bluesky comments on your website",
+  "source": "./src/main.jsx",
   "main": "./dist/bluesky-comments.umd.js",
   "module": "./dist/bluesky-comments.es.js",
   "files": [
@@ -44,9 +45,8 @@
   "homepage": "https://github.com/czue/bluesky-comments#readme",
   "exports": {
     ".": {
-      "import": "./dist/bluesky-comments.es.js",
-      "require": "./dist/bluesky-comments.umd.js",
-      "default": "./dist/bluesky-comments.umd.js"
+      "import": "./src/main.jsx",
+      "require": "./dist/bluesky-comments.umd.js"
     },
     "./style.css": "./dist/bluesky-comments.css"
   },
