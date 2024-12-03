@@ -1,10 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { CommentSection } from './CommentSection'
-
-type CommentOptions =
-  | { uri: string; author?: string }
-  | { uri?: string; author: string };
+import type { CommentOptions } from './types'
 
 // Create a global function to initialize the comments
 window.initBlueskyComments = (elementId: string, options: CommentOptions) => {
@@ -16,6 +13,7 @@ window.initBlueskyComments = (elementId: string, options: CommentOptions) => {
       <CommentSection
         uri={options.uri}
         author={options.author}
+        onEmpty={options.onEmpty}
       />
     </React.StrictMode>
   )
