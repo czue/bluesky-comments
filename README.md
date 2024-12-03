@@ -52,7 +52,8 @@ If you use this mode, it will use the most popular post by that author that link
 to the current page.
 
 
-You can also pass in a `onEmpty` callback to handle the case where there are no comments rendered:
+You can also pass in a `onEmpty` callback to handle the case where there are no comments rendered
+(for example, if no post matching the URL is found or there aren't any comments on it yet):
 
 ```html
 <script>
