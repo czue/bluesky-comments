@@ -14,6 +14,7 @@ window.initBlueskyComments = (elementId: string, options: CommentOptions) => {
         uri={options.uri}
         author={options.author}
         onEmpty={options.onEmpty}
+        commentFilters={options.commentFilters}
       />
     </React.StrictMode>
   )
