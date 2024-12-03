@@ -6,12 +6,8 @@ import {
   type AppBskyFeedGetPostThread,
 } from "@atproto/api";
 import styles from './CommentSection.module.css';
-import { CommentEmptyDetails } from './types';
-interface Props {
-  uri?: string;
-  author?: string;
-  onEmpty?: (details: CommentEmptyDetails) => void;
-}
+import { CommentEmptyDetails, CommentOptions } from './types';
+import { Filters } from './CommentFilters';
 
 type Reply = {
   post: {
@@ -42,7 +38,7 @@ const formatUri = (uri: string): string => {
 };
 
 
-export const CommentSection = ({ uri: propUri, author, onEmpty }: Props) => {
+export const CommentSection = ({ uri: propUri, author, onEmpty, commentFilters }: CommentOptions) => {
   const [uri, setUri] = useState<string | null>(null);
   const [thread, setThread] = useState<Thread | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -158,8 +154,9 @@ export const CommentSection = ({ uri: propUri, author, onEmpty }: Props) => {
       <hr className={styles.divider} />
       <div className={styles.commentsList}>
         {sortedReplies.slice(0, visibleCount).map((reply) => {
+          console.log(reply);
           if (!AppBskyFeedDefs.isThreadViewPost(reply)) return null;
-          return <Comment key={reply.post.uri} comment={reply} />;
+          return <Comment key={reply.post.uri} comment={reply} filters={commentFilters} />;
         })}
         {visibleCount < sortedReplies.length && (
           <button onClick={showMore} className={styles.showMoreButton}>
@@ -172,12 +169,15 @@ export const CommentSection = ({ uri: propUri, author, onEmpty }: Props) => {
 };
 
 
-const Comment = ({ comment }: { comment: AppBskyFeedDefs.ThreadViewPost }) => {
+const Comment = ({ comment, filters }: { comment: AppBskyFeedDefs.ThreadViewPost, filters?: Array<(arg: any) => boolean> }) => {
   const author = comment.post.author;
   const avatarClassName = styles.avatar;
 
   if (!AppBskyFeedPost.isRecord(comment.post.record)) return null;
+  // filter out replies that match any of the commentFilters, by ensuring they all return false
+  if (filters && !filters.every((filter) => !filter(comment))) return null;
 
+  console.log('rendering', comment);
   return (
     <div className={styles.commentContainer}>
       <div className={styles.commentContent}>
@@ -214,7 +214,7 @@ const Comment = ({ comment }: { comment: AppBskyFeedDefs.ThreadViewPost }) => {
         <div className={styles.repliesContainer}>
           {comment.replies.sort(sortByLikes).map((reply) => {
             if (!AppBskyFeedDefs.isThreadViewPost(reply)) return null;
-            return <Comment key={reply.post.uri} comment={reply} />;
+            return <Comment key={reply.post.uri} comment={reply} filters={filters} />;
           })}
         </div>
       )}

@@ -51,6 +51,10 @@
       "import": "./dist/CommentSection.es.js",
       "require": "./dist/CommentSection.umd.js"
     },
+    "./Filters": {
+      "import": "./dist/CommentFilters.es.js",
+      "require": "./dist/CommentFilters.umd.js"
+    },
     "./style.css": "./dist/bluesky-comments.css"
   },
   "type": "module"
