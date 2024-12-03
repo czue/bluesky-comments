@@ -1,10 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { CommentSection } from './CommentSection'
+import { Filters } from './CommentFilters'
 import type { CommentOptions } from './types'
 
-// Create a global function to initialize the comments
-window.initBlueskyComments = (elementId: string, options: CommentOptions) => {
+export { Filters }  // Export filters directly
+
+export function initBlueskyComments(elementId: string, options: CommentOptions) {
   const element = document.getElementById(elementId)
   if (!element) return;
 
@@ -18,11 +20,4 @@ window.initBlueskyComments = (elementId: string, options: CommentOptions) => {
       />
     </React.StrictMode>
   )
-}
-
-// Add type declaration for the global function
-declare global {
-  interface Window {
-    initBlueskyComments: (elementId: string, options: CommentOptions) => void;
-  }
 }
