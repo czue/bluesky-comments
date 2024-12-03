@@ -51,6 +51,9 @@ Or by passing the author:
 If you use this mode, it will use the most popular post by that author that links
 to the current page.
 
+## Advanced Usage
+
+### Providing custom default empty states
 
 You can also pass in a `onEmpty` callback to handle the case where there are no comments rendered
 (for example, if no post matching the URL is found or there aren't any comments on it yet):
@@ -71,6 +74,26 @@ You can also pass in a `onEmpty` callback to handle the case where there are no 
 </script>
 ```
 
+### Filtering comments
+
+You can also pass in an array of filters to the `commentFilters` option. These are functions that take a comment and return a boolean. If any of the filters return true, the comment will not be rendered.
+
+A few default filters are provided:
+
+- `Filters.NoLikes`: Hide comments with no likes
+- `Filters.TooShort`: Hide comments shorter than 5 characters
+
+You can also create filters with your own custom thresholds by using the `MinLikeCountFilter` and `MinCharacterCountFilter` functions.
+
+```javascript
+  initBlueskyComments('bluesky-comments', {
+    // other options here
+    commentFilters: [
+      Filters.NoLikes,  // Don't show posts with 0
+      Filters.MinCharacterCountFilter(10), // Don't show posts with 10 or less characters
+    ],
+  });
+```
 
 ## Installation with npm
 
