@@ -7,7 +7,7 @@ import {
 } from "@atproto/api";
 import styles from './CommentSection.module.css';
 import { CommentEmptyDetails, CommentOptions } from './types';
-import { NoLikes } from './CommentFilters';
+import { Filters } from './CommentFilters';
 
 type Reply = {
   post: {
@@ -175,7 +175,7 @@ const Comment = ({ comment, filters }: { comment: AppBskyFeedDefs.ThreadViewPost
 
   if (!AppBskyFeedPost.isRecord(comment.post.record)) return null;
   // filter out replies that match any of the commentFilters
-  let testFilters = [NoLikes];
+  let testFilters = [Filters.NoLikes];
   if (testFilters && !testFilters.every((filter) => filter(comment))) return null;
 
   if (filters && !filters.every((filter) => filter(comment.post))) return null;
