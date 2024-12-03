@@ -10,7 +10,7 @@ Embed Bluesky comments on your website easily.
 1. Add the default styles the page `<head>` somewhere in a base template:
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/bluesky-comments@0.3.0/dist/bluesky-comments.css">
+<link rel="stylesheet" href="https://unpkg.com/bluesky-comments@<VERSION>/dist/bluesky-comments.css">
 ```
 
 2. Add the comments (and React dependencies) to the end of the body on any page that you wnat to show comments on:
@@ -19,7 +19,7 @@ Embed Bluesky comments on your website easily.
 ```html
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/bluesky-comments@0.3.0/dist/bluesky-comments.umd.js"></script>
+<script src="https://unpkg.com/bluesky-comments@<VERSION>/dist/bluesky-comments.umd.js"></script>
 ```
 
 3. Initialize the comments by passing in a link to the post you want to use as a base:
