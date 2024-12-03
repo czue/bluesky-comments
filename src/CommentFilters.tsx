@@ -1,13 +1,22 @@
 import type { AppBskyFeedDefs } from '@atproto/api';
 
+const MinLikeCountFilter = (min: number): (comment: AppBskyFeedDefs.ThreadViewPost) => boolean => {
+  return (comment: AppBskyFeedDefs.ThreadViewPost) => {
+    return comment.post.likeCount <= min;
+  }
+}
+
+const MinCharacterCountFilter = (min: number): (comment: AppBskyFeedDefs.ThreadViewPost) => boolean => {
+  return (comment: AppBskyFeedDefs.ThreadViewPost) => {
+    return comment.post.record.text.length <= min;
+  }
+}
+
 export const Filters = {
-  NoLikes: (comment: AppBskyFeedDefs.ThreadViewPost) => {
-    console.log("In no likes");
-    console.log(comment.post);
-    console.log(comment.post.record);
-    return comment.post.likeCount === 0;
-  },
-  // ... add more filters here as needed ...
+  MinLikeCountFilter,
+  MinCharacterCountFilter,
+  NoLikes: MinLikeCountFilter(0),
+  TooShort: MinCharacterCountFilter(5),
 };
 
 export default Filters;

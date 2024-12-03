@@ -174,11 +174,8 @@ const Comment = ({ comment, filters }: { comment: AppBskyFeedDefs.ThreadViewPost
   const avatarClassName = styles.avatar;
 
   if (!AppBskyFeedPost.isRecord(comment.post.record)) return null;
-  // filter out replies that match any of the commentFilters
-  let testFilters = [Filters.NoLikes];
-  if (testFilters && !testFilters.every((filter) => filter(comment))) return null;
-
-  if (filters && !filters.every((filter) => filter(comment.post))) return null;
+  // filter out replies that match any of the commentFilters, by ensuring they all return false
+  if (filters && !filters.every((filter) => !filter(comment))) return null;
 
   console.log('rendering', comment);
   return (
@@ -217,7 +214,7 @@ const Comment = ({ comment, filters }: { comment: AppBskyFeedDefs.ThreadViewPost
         <div className={styles.repliesContainer}>
           {comment.replies.sort(sortByLikes).map((reply) => {
             if (!AppBskyFeedDefs.isThreadViewPost(reply)) return null;
-            return <Comment key={reply.post.uri} comment={reply} />;
+            return <Comment key={reply.post.uri} comment={reply} filters={filters} />;
           })}
         </div>
       )}
