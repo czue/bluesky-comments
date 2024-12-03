@@ -6,9 +6,11 @@ import {
   type AppBskyFeedGetPostThread,
 } from "@atproto/api";
 import styles from './CommentSection.module.css';
+import { CommentEmptyDetails } from './types';
 interface Props {
   uri?: string;
   author?: string;
+  onEmpty?: (details: CommentEmptyDetails) => void;
 }
 
 type Reply = {
@@ -29,21 +31,18 @@ type Thread = {
   };
 };
 const formatUri = (uri: string): string => {
-  console.log('formatting uri', uri);
   if (!uri.startsWith('at://') && uri.includes('bsky.app/profile/')) {
     const match = uri.match(/profile\/([\w.]+)\/post\/([\w]+)/);
     if (match) {
       const [, did, postId] = match;
-      console.log('reformatted uri', `at://${did}/app.bsky.feed.post/${postId}`);
       return `at://${did}/app.bsky.feed.post/${postId}`;
     }
   }
-  console.log('reformatted uri', uri);
   return uri;
 };
 
 
-export const CommentSection = ({ uri: propUri, author }: Props) => {
+export const CommentSection = ({ uri: propUri, author, onEmpty }: Props) => {
   const [uri, setUri] = useState<string | null>(null);
   const [thread, setThread] = useState<Thread | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -58,8 +57,8 @@ export const CommentSection = ({ uri: propUri, author }: Props) => {
     if (author) {
       const fetchPost = async () => {
         const currentUrl = window.location.href;
+        // const currentUrl = "https://www.coryzue.com/writing/musing/"
         const apiUrl = `https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=*&url=${encodeURIComponent(currentUrl)}&author=${author}`;
-
         try {
           const response = await fetch(apiUrl);
           const data = await response.json();
@@ -69,15 +68,17 @@ export const CommentSection = ({ uri: propUri, author }: Props) => {
             setUri(post.uri);
           } else {
             setError('No matching post found');
+            onEmpty?.({ code: 'not_found', message: 'No matching post found' });
           }
         } catch (err) {
           setError('Error fetching post');
+          onEmpty?.({ code: 'fetching_error', message: 'Error fetching post' });
         }
       };
 
       fetchPost();
     }
-  }, [propUri, author]);
+  }, [propUri, author, onEmpty]);
 
   useEffect(() => {
     if (uri) {
@@ -87,17 +88,15 @@ export const CommentSection = ({ uri: propUri, author }: Props) => {
           setThread(thread);
         } catch (err) {
           setError('Error loading comments');
+          onEmpty?.({ code: 'comment_loading_error', message: 'Error loading comments' });
         }
       };
 
       fetchThreadData();
     }
-  }, [uri]);
+  }, [uri, onEmpty]);
 
   if (!uri) return null;
-
-  const [, , did, _, rkey] = uri.split("/");
-  const postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
 
   if (error) {
     return <p className={styles.errorText}>{error}</p>;
@@ -115,6 +114,9 @@ export const CommentSection = ({ uri: propUri, author }: Props) => {
     setVisibleCount((prevCount) => prevCount + 5);
   };
 
+
+  const [, , did, _, rkey] = uri.split("/");
+  const postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
   const sortedReplies = thread.replies.sort(sortByLikes);
 
   return (
@@ -243,7 +245,6 @@ const Actions = ({ post }: { post: AppBskyFeedDefs.PostView }) => (
 );
 
 const getPostThread = async (uri: string) => {
-  console.log('fetching thread', uri);
   const atUri = formatUri(uri);
   const params = new URLSearchParams({ uri: atUri });
 
