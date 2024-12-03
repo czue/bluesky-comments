@@ -51,6 +51,26 @@ Or by passing the author:
 If you use this mode, it will use the most popular post by that author that links
 to the current page.
 
+
+You can also pass in a `onEmpty` callback to handle the case where there are no comments rendered:
+
+```html
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  initBlueskyComments('bluesky-comments', {
+      uri,
+      author,
+      onEmpty: (details) => {
+        console.error('Failed to load comments:', details);
+        document.getElementById('bluesky-comments').innerHTML =
+          'No comments on this post yet. Details: ' + details.message;
+      },
+    });
+  });
+</script>
+```
+
+
 ## Installation with npm
 
 ```bash
