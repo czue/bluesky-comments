@@ -11,7 +11,7 @@ There are a few ways to set up the library on your website.
 
 ### 1. Add an element to your page where you want the comments to show up
 
-Add somtehing like this to your site:
+Add something like this to your site:
 
 ```html
 <div id="bluesky-comments"></div>
