@@ -5,15 +5,52 @@ Embed Bluesky comments on your website easily.
 **[Write up and demo here](https://coryzue.com/writing/bluesky-comments).**
 
 
-## Installing on a website from a CDN:
+## Installation via CDNs (easiest)
 
-1. Add the default styles the page `<head>` somewhere in a base template:
+There are a few ways to set up the library on your website.
+
+### 1. Add the CSS files
+
+Add the default styles the page `<head>` somewhere in a base template:
 
 ```html
 <link rel="stylesheet" href="https://unpkg.com/bluesky-comments@<VERSION>/dist/bluesky-comments.css">
 ```
 
-2. Add the comments (and React dependencies) to the end of the body on any page that you wnat to show comments on:
+### 2. Add source maps for React
+
+Add the following importmap to your page anywhere before you use the library:
+
+```
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18",
+    "react-dom": "https://esm.sh/react-dom@18"
+  }
+}
+</script>
+```
+
+### 3. Import and use the library and any other functions you need in an ES module script:
+
+```html
+<script type="module">
+  import { initBlueskyComments } from 'https://unpkg.com/bluesky-comments@0.4.0/dist/bluesky-comments.es.js';
+  document.addEventListener('DOMContentLoaded', function() {
+    const author = 'you.bsky.social';
+    if (author) {
+      initBlueskyComments('bluesky-comments', {author});
+    }
+  });
+</script>
+```
+
+See the [Usage](#usage) section for details on the API.
+
+### Legacy installation to install using `<script>` tags and umd
+
+If you don't want to use ES modules, you can also add the the comments (and React dependencies) to the end of the body on any page that you wnat to show comments on like this:
 
 
 ```html
@@ -22,7 +59,7 @@ Embed Bluesky comments on your website easily.
 <script src="https://unpkg.com/bluesky-comments@<VERSION>/dist/bluesky-comments.umd.js"></script>
 ```
 
-3. Initialize the comments by passing in a link to the post you want to use as a base:
+Then initialize the comments in a standard `<script>` tag:
 
 ```html
 <script>
@@ -35,64 +72,87 @@ Embed Bluesky comments on your website easily.
 </script>
 ```
 
-Or by passing the author:
+## Usage
 
-```html
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const author = 'coryzue.com';
-    if (author) {
-      initBlueskyComments('bluesky-comments', {author});
-    }
-  });
+### Initializing the library based on the author
+
+```javascript
+const author = 'you.bsky.social';
+initBlueskyComments('bluesky-comments', {author});
 </script>
 ```
 
-If you use this mode, it will use the most popular post by that author that links
+If you use this mode, the comments section will use the most popular post by that author that links
 to the current page.
 
-## Advanced Usage
+### Initializing the library based on a post URL
 
-### Providing custom default empty states
-
-You can also pass in a `onEmpty` callback to handle the case where there are no comments rendered
-(for example, if no post matching the URL is found or there aren't any comments on it yet):
-
-```html
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-  initBlueskyComments('bluesky-comments', {
-      uri,
-      author,
-      onEmpty: (details) => {
-        console.error('Failed to load comments:', details);
-        document.getElementById('bluesky-comments').innerHTML =
-          'No comments on this post yet. Details: ' + details.message;
-      },
-    });
-  });
-</script>
+```javascript
+const uri = 'https://bsky.social/coryzue.com/posts/3jxgux';
+initBlueskyComments('bluesky-comments', {uri});
 ```
 
-### Filtering comments
+If you use this mode, the comments section will use the exact post you specify.
+This usually means you have to add the comments section only *after* you've linked to the article.
 
-You can also pass in an array of filters to the `commentFilters` option. These are functions that take a comment and return a boolean. If any of the filters return true, the comment will not be rendered.
 
-A few default filters are provided:
+### (Advanced) Providing custom default empty states
 
+You can pass in a `onEmpty` callback to handle the case where there are no comments rendered
+(for example, if no post matching the URL is found or there aren't any comments on it yet):
+
+```javascript
+initBlueskyComments('bluesky-comments', {
+    uri,
+    author,
+    onEmpty: (details) => {
+      console.error('Failed to load comments:', details);
+      document.getElementById('bluesky-comments').innerHTML =
+        'No comments on this post yet. Details: ' + details.message;
+    },
+});
+```
+
+### (Advanced) Filtering comments
+
+You can pass in an array of filters to the `commentFilters` option. These are functions that take a comment and return a boolean. If any of the filters return true, the comment will not be shown.
+
+A few default filters utilities are provided:
+
+- `Filters.NoPins`: Hide comments that are just "📌"
 - `Filters.NoLikes`: Hide comments with no likes
-- `Filters.TooShort`: Hide comments shorter than 5 characters
 
-You can also create filters with your own custom thresholds by using the `MinLikeCountFilter` and `MinCharacterCountFilter` functions.
+You can also use the following utilities to create your own filters:
+
+- `Filters.MinLikeCountFilter`: Hide comments with less than a given number of likes
+- `Filters.MinCharacterCountFilter`: Hide comments with less than a given number of characters
+- `Filters.TextContainsFilter`: Hide comments that contain specific text (case insensitive)
+- `Filters.ExactMatchFilter`: Hide comments that match text exactly (case insensitive)
+
+Pass filters using the `commentFilters` option:
 
 ```javascript
   initBlueskyComments('bluesky-comments', {
     // other options here
     commentFilters: [
-      Filters.NoLikes,  // Don't show posts with 0
-      Filters.MinCharacterCountFilter(10), // Don't show posts with 10 or less characters
+      Filters.NoPins,  // Hide pinned comments
+      Filters.MinCharacterCountFilter(10), // Hide comments with less than 10 characters
     ],
   });
+```
+
+You can also write your own filters, by returning `true` for comments you want to hide:
+
+```javascript
+const NoTwitterLinksFilter = (comment) => {
+  return (comment.post.record.text.includes('https://x.com/') || comment.post.record.text.includes('https://twitter.com/'));
+}
+initBlueskyComments('bluesky-comments', {
+    // other options here
+    commentFilters: [
+      NoTwitterLinksFilter,
+    ]
+});
 ```
 
 ## Installation with npm
