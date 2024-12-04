@@ -48,10 +48,9 @@ Add the following importmap to your page anywhere before you use the library:
 
 See the [Usage](#usage) section for details on the API.
 
-### Legacy installation to install using `<script>` tags and umd
+### (Deprecated) Installation using `<script>` tags and UMD
 
-If you don't want to use ES modules, you can also add the the comments (and React dependencies) to the end of the body on any page that you wnat to show comments on like this:
-
+Previous versions of this library recommended installing like this:
 
 ```html
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -59,18 +58,24 @@ If you don't want to use ES modules, you can also add the the comments (and Reac
 <script src="https://unpkg.com/bluesky-comments@<VERSION>/dist/bluesky-comments.umd.js"></script>
 ```
 
-Then initialize the comments in a standard `<script>` tag:
+And initializing the comments in a standard `<script>` tag. Both of these approaches work:
 
 ```html
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const uri = 'https://bsky.social/coryzue.com/posts/3jxgux';
     if (uri) {
+      // New API
+      BlueskyComments.init('bluesky-comments', {uri});
+
+      // Legacy API (still supported but deprecated)
       initBlueskyComments('bluesky-comments', {uri});
     }
   });
 </script>
 ```
+
+This option is now deprecated with the introduction of ES modules and will be removed in a future version.
 
 ## Usage
 

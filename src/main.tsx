@@ -23,4 +23,12 @@ const BlueskyComments = {
   Filters
 }
 
-export default BlueskyComments
+// Support both module exports and window global
+export default BlueskyComments;
+
+// Add to window object for UMD builds
+if (typeof window !== 'undefined') {
+  (window as any).BlueskyComments = BlueskyComments;
+  // For backward compatibility
+  (window as any).initBlueskyComments = BlueskyComments.init;
+}
