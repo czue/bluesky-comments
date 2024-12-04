@@ -154,7 +154,6 @@ export const CommentSection = ({ uri: propUri, author, onEmpty, commentFilters }
       <hr className={styles.divider} />
       <div className={styles.commentsList}>
         {sortedReplies.slice(0, visibleCount).map((reply) => {
-          console.log(reply);
           if (!AppBskyFeedDefs.isThreadViewPost(reply)) return null;
           return <Comment key={reply.post.uri} comment={reply} filters={commentFilters} />;
         })}
@@ -177,7 +176,6 @@ const Comment = ({ comment, filters }: { comment: AppBskyFeedDefs.ThreadViewPost
   // filter out replies that match any of the commentFilters, by ensuring they all return false
   if (filters && !filters.every((filter) => !filter(comment))) return null;
 
-  console.log('rendering', comment);
   return (
     <div className={styles.commentContainer}>
       <div className={styles.commentContent}>
