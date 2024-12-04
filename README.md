@@ -9,7 +9,19 @@ Embed Bluesky comments on your website easily.
 
 There are a few ways to set up the library on your website.
 
-### 1. Add the CSS files
+### 1. Add an element to your page where you want the comments to show up
+
+Add somtehing like this to your site:
+
+```html
+<div id="bluesky-comments"></div>
+```
+
+You can use whatever id you want, but it has to match the value used in `BlueskyComments.init`
+in the later steps.
+
+
+### 2. Add the CSS files
 
 Add the default styles the page `<head>` somewhere in a base template:
 
@@ -17,7 +29,7 @@ Add the default styles the page `<head>` somewhere in a base template:
 <link rel="stylesheet" href="https://unpkg.com/bluesky-comments@<VERSION>/dist/bluesky-comments.css">
 ```
 
-### 2. Add source maps for React
+### 3. Add source maps for React
 
 Add the following importmap to your page anywhere before you use the library:
 
@@ -32,7 +44,7 @@ Add the following importmap to your page anywhere before you use the library:
 </script>
 ```
 
-### 3. Import and use the library and any other functions you need in an ES module script:
+### 4. Import and use the library and any other functions you need in an ES module script:
 
 ```html
 <script type="module">
