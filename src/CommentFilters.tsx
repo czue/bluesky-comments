@@ -12,6 +12,12 @@ const MinCharacterCountFilter = (min: number): (comment: AppBskyFeedDefs.ThreadV
   }
 }
 
+const TextContainsFilter = (text: string): (comment: AppBskyFeedDefs.ThreadViewPost) => boolean => {
+  return (comment: AppBskyFeedDefs.ThreadViewPost) => {
+    return comment.post.record.text.includes(text);
+  }
+}
+
 const ExactMatchFilter = (text: string): (comment: AppBskyFeedDefs.ThreadViewPost) => boolean => {
   return (comment: AppBskyFeedDefs.ThreadViewPost) => {
     return comment.post.record.text === text;
@@ -21,6 +27,7 @@ const ExactMatchFilter = (text: string): (comment: AppBskyFeedDefs.ThreadViewPos
 export const Filters = {
   MinLikeCountFilter,
   MinCharacterCountFilter,
+  TextContainsFilter,
   ExactMatchFilter,
   NoLikes: MinLikeCountFilter(0),
   TooShort: MinCharacterCountFilter(5),
