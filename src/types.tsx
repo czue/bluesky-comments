@@ -6,6 +6,6 @@ export interface CommentEmptyDetails {
 export interface CommentOptions {
   uri?: string;
   author?: string;
-  filte
+  commentFilters?: Array<(arg: any) => boolean>;
   onEmpty?: (details: CommentEmptyDetails) => void;
 }
