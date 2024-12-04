@@ -36,11 +36,11 @@ Add the following importmap to your page anywhere before you use the library:
 
 ```html
 <script type="module">
-  import { initBlueskyComments } from 'https://unpkg.com/bluesky-comments@0.4.0/dist/bluesky-comments.es.js';
+  import BlueskyComments from 'https://unpkg.com/bluesky-comments@0.4.0/dist/bluesky-comments.es.js';
   document.addEventListener('DOMContentLoaded', function() {
     const author = 'you.bsky.social';
     if (author) {
-      initBlueskyComments('bluesky-comments', {author});
+      BlueskyComments.init('bluesky-comments', {author});
     }
   });
 </script>
@@ -78,8 +78,7 @@ Then initialize the comments in a standard `<script>` tag:
 
 ```javascript
 const author = 'you.bsky.social';
-initBlueskyComments('bluesky-comments', {author});
-</script>
+BlueskyComments.init('bluesky-comments', {author});
 ```
 
 If you use this mode, the comments section will use the most popular post by that author that links
@@ -89,7 +88,7 @@ to the current page.
 
 ```javascript
 const uri = 'https://bsky.social/coryzue.com/posts/3jxgux';
-initBlueskyComments('bluesky-comments', {uri});
+BlueskyComments.init('bluesky-comments', {uri});
 ```
 
 If you use this mode, the comments section will use the exact post you specify.
@@ -102,7 +101,7 @@ You can pass in a `onEmpty` callback to handle the case where there are no comme
 (for example, if no post matching the URL is found or there aren't any comments on it yet):
 
 ```javascript
-initBlueskyComments('bluesky-comments', {
+BlueskyComments.init('bluesky-comments', {
     uri,
     author,
     onEmpty: (details) => {
@@ -119,26 +118,26 @@ You can pass in an array of filters to the `commentFilters` option. These are fu
 
 A few default filters utilities are provided:
 
-- `Filters.NoPins`: Hide comments that are just "📌"
-- `Filters.NoLikes`: Hide comments with no likes
+- `BlueskyComments.Filters.NoPins`: Hide comments that are just "📌"
+- `BlueskyComments.Filters.NoLikes`: Hide comments with no likes
 
 You can also use the following utilities to create your own filters:
 
-- `Filters.MinLikeCountFilter`: Hide comments with less than a given number of likes
-- `Filters.MinCharacterCountFilter`: Hide comments with less than a given number of characters
-- `Filters.TextContainsFilter`: Hide comments that contain specific text (case insensitive)
-- `Filters.ExactMatchFilter`: Hide comments that match text exactly (case insensitive)
+- `BlueskyComments.Filters.MinLikeCountFilter`: Hide comments with less than a given number of likes
+- `BlueskyComments.Filters.MinCharacterCountFilter`: Hide comments with less than a given number of characters
+- `BlueskyComments.Filters.TextContainsFilter`: Hide comments that contain specific text (case insensitive)
+- `BlueskyComments.Filters.ExactMatchFilter`: Hide comments that match text exactly (case insensitive)
 
 Pass filters using the `commentFilters` option:
 
 ```javascript
-  initBlueskyComments('bluesky-comments', {
+BlueskyComments.init('bluesky-comments', {
     // other options here
     commentFilters: [
-      Filters.NoPins,  // Hide pinned comments
-      Filters.MinCharacterCountFilter(10), // Hide comments with less than 10 characters
+      BlueskyComments.Filters.NoPins,  // Hide pinned comments
+      BlueskyComments.Filters.MinCharacterCountFilter(10), // Hide comments with less than 10 characters
     ],
-  });
+});
 ```
 
 You can also write your own filters, by returning `true` for comments you want to hide:
@@ -147,7 +146,7 @@ You can also write your own filters, by returning `true` for comments you want t
 const NoTwitterLinksFilter = (comment) => {
   return (comment.post.record.text.includes('https://x.com/') || comment.post.record.text.includes('https://twitter.com/'));
 }
-initBlueskyComments('bluesky-comments', {
+BlueskyComments.init('bluesky-comments', {
     // other options here
     commentFilters: [
       NoTwitterLinksFilter,
