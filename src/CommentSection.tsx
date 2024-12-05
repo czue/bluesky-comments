@@ -133,9 +133,9 @@ export const CommentSection = ({ uri: propUri, author, onEmpty, commentFilters }
           return <Comment key={reply.post.uri} comment={reply} filters={commentFilters} />;
         })}
         {visibleCount < sortedReplies.length && (
-          <button onClick={showMore} className={styles.showMoreButton}>
+          <a onClick={showMore} className={styles.showMoreButton}>
             Show more comments
-          </button>
+          </a>
         )}
       </div>
     </div>
