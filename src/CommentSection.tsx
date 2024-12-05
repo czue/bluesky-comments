@@ -26,7 +26,7 @@ type Thread = {
     replyCount?:number;
   };
 };
-const formatUri = (uri: string): string => {
+const getAtUri = (uri: string): string => {
   if (!uri.startsWith('at://') && uri.includes('bsky.app/profile/')) {
     const match = uri.match(/profile\/([\w.]+)\/post\/([\w]+)/);
     if (match) {
@@ -243,7 +243,7 @@ const Actions = ({ post }: { post: AppBskyFeedDefs.PostView }) => (
 );
 
 const getPostThread = async (uri: string) => {
-  const atUri = formatUri(uri);
+  const atUri = getAtUri(uri);
   const params = new URLSearchParams({ uri: atUri });
 
   const res = await fetch(
