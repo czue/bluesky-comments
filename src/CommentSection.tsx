@@ -53,8 +53,8 @@ export const CommentSection = ({ uri: propUri, author, onEmpty, commentFilters }
     if (author) {
       const fetchPost = async () => {
         const currentUrl = window.location.href;
-        // const currentUrl = "https://www.coryzue.com/writing/musing/"
-        const apiUrl = `https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=*&url=${encodeURIComponent(currentUrl)}&author=${author}`;
+        // const currentUrl = "https://www.coryzue.com/writing/authenticity-and-engagement/"
+        const apiUrl = `https://public.api.bsky.app/xrpc/app.bsky.feed.searchPosts?q=*&url=${encodeURIComponent(currentUrl)}&author=${author}&sort=top`;
         try {
           const response = await fetch(apiUrl);
           const data = await response.json();
