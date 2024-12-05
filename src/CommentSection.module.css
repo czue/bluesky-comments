@@ -59,10 +59,13 @@
   gap: 0.5rem;
 }
 
-.showMoreButton {
+.container .showMoreButton {
   margin-top: 0.5rem;
   font-size: 0.875rem;
-  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.container .showMoreButton:hover {
   text-decoration: underline;
 }
 
