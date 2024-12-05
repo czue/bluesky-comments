@@ -44,7 +44,7 @@ export const CommentSection = ({ uri: propUri, author, onEmpty, commentFilters }
   const [uri, setUri] = useState<string | null>(null);
   const [thread, setThread] = useState<Thread | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [visibleCount, setVisibleCount] = useState(3);
+  const [visibleCount, setVisibleCount] = useState(5);
 
   useEffect(() => {
     if (propUri) {
