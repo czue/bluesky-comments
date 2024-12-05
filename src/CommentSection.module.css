@@ -20,6 +20,14 @@
   white-space: nowrap;
 }
 
+.container a.link {
+  text-decoration: underline;
+}
+
+.container a.link:hover {
+  text-decoration: underline;
+}
+
 .icon {
   width: 1.25rem;
   height: 1.25rem;
@@ -111,7 +119,6 @@
 .commentContent .handle {
   color: #6b7280;
 }
-
 .repliesContainer {
   border-left: 2px solid #525252;
   padding-left: 0.5rem;
@@ -134,3 +141,4 @@
   align-items: center;
   gap: 0.25rem;
 }
+
