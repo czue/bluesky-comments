@@ -104,10 +104,6 @@ export const CommentSection = ({ uri: propUri, author, onEmpty, commentFilters }
     return <p className={styles.loadingText}>Loading comments...</p>;
   }
 
-  if (!thread.replies || thread.replies.length === 0) {
-    return <div />;
-  }
-
   const showMore = () => {
     setVisibleCount((prevCount) => prevCount + 5);
   };
@@ -116,6 +112,14 @@ export const CommentSection = ({ uri: propUri, author, onEmpty, commentFilters }
   if (uri.startsWith("at://")) {
     const [, , did, _, rkey] = uri.split("/");
     postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
+  }
+
+  if (!thread.replies || thread.replies.length === 0) {
+    return (
+      <div className={styles.container}>
+        <PostSummary postUrl={postUrl} post={thread.post} />
+      </div>
+    );
   }
   const sortedReplies = thread.replies.sort(sortByLikes);
 

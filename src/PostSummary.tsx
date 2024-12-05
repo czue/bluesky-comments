@@ -37,15 +37,7 @@ export const PostSummary = ({ postUrl, post }: PostSummaryProps) => {
       </a>
       <h2 className={styles.commentsTitle}>Comments</h2>
       <p className={styles.replyText}>
-        Reply on Bluesky{" "}
-        <a
-          href={postUrl}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          here
-        </a>{" "}
-        to join the conversation.
+        Join the conversation by <a className={styles.link} href={postUrl} target="_blank" rel="noreferrer noopener">replying on Bluesky</a>.
       </p>
     </>
   );
