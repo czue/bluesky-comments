@@ -110,9 +110,11 @@ export const CommentSection = ({ uri: propUri, author, onEmpty, commentFilters }
     setVisibleCount((prevCount) => prevCount + 5);
   };
 
-
-  const [, , did, _, rkey] = uri.split("/");
-  const postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
+  let postUrl: string = uri;
+  if (uri.startsWith("at://")) {
+    const [, , did, _, rkey] = uri.split("/");
+    postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
+  }
   const sortedReplies = thread.replies.sort(sortByLikes);
 
   return (
