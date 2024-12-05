@@ -26,7 +26,7 @@ type Thread = {
     replyCount?:number;
   };
 };
-const formatUri = (uri: string): string => {
+const getAtUri = (uri: string): string => {
   if (!uri.startsWith('at://') && uri.includes('bsky.app/profile/')) {
     const match = uri.match(/profile\/([\w.]+)\/post\/([\w]+)/);
     if (match) {
@@ -110,9 +110,11 @@ export const CommentSection = ({ uri: propUri, author, onEmpty, commentFilters }
     setVisibleCount((prevCount) => prevCount + 5);
   };
 
-
-  const [, , did, _, rkey] = uri.split("/");
-  const postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
+  let postUrl: string = uri;
+  if (uri.startsWith("at://")) {
+    const [, , did, _, rkey] = uri.split("/");
+    postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
+  }
   const sortedReplies = thread.replies.sort(sortByLikes);
 
   return (
@@ -243,7 +245,7 @@ const Actions = ({ post }: { post: AppBskyFeedDefs.PostView }) => (
 );
 
 const getPostThread = async (uri: string) => {
-  const atUri = formatUri(uri);
+  const atUri = getAtUri(uri);
   const params = new URLSearchParams({ uri: atUri });
 
   const res = await fetch(
