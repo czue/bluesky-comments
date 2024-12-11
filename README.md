@@ -48,7 +48,7 @@ Add the following importmap to your page anywhere before you use the library:
 
 ```html
 <script type="module">
-  import BlueskyComments from 'https://unpkg.com/bluesky-comments@0.4.0/dist/bluesky-comments.es.js';
+  import { BlueskyComments } from 'https://unpkg.com/bluesky-comments@0.4.0/dist/bluesky-comments.es.js';
   document.addEventListener('DOMContentLoaded', function() {
     const author = 'you.bsky.social';
     if (author) {

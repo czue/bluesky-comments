@@ -4,7 +4,7 @@ import { CommentSection } from './CommentSection'
 import { Filters } from './CommentFilters'
 import type { CommentOptions } from './types'
 
-const BlueskyComments = {
+export const BlueskyComments = {
   init: function(elementId: string, options: CommentOptions) {
     const element = document.getElementById(elementId)
     if (!element) return;
@@ -24,8 +24,6 @@ const BlueskyComments = {
 }
 
 // Support both module exports and window global
-export default BlueskyComments;
-
 // Add to window object for UMD builds
 if (typeof window !== 'undefined') {
   (window as any).BlueskyComments = BlueskyComments;
