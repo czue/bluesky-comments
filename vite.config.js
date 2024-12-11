@@ -11,8 +11,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/main.tsx'),
-      name: 'BlueskyComments',
       formats: ['es', 'umd'],
+      name: 'BlueskyComments',
       fileName: (format) => `bluesky-comments.${format}.js`
     },
     rollupOptions: {
@@ -31,10 +31,5 @@ export default defineConfig({
     },
     outDir: 'dist',
     sourcemap: true
-  },
-  resolve: {
-    alias: {
-      './CommentSection': path.resolve(__dirname, 'src/CommentSection.jsx')
-    }
   }
 })
