@@ -171,13 +171,41 @@ BlueskyComments.init('bluesky-comments', {
 });
 ```
 
-## Installation with npm
+## Usage with npm / yarn in a native JavaScript project
+
+Install the package:
 
 ```bash
 npm install bluesky-comments
 ```
 
-I don't publish a lot of JavaScript packages, but I think you can import it by doing this!
+Then you can use the library in your projects by importing the CSS and components:
+
+```javascript
+import 'bluesky-comments/bluesky-comments.css'
+import { CommentSection } from "bluesky-comments";
+```
+
+And using them in a React component like this:
+
+```javascript
+function App() {
+  return (
+    <>
+      <div>Comments Will Display Below</div>
+        <CommentSection
+           author="coryzue.com"
+           uri=""
+           onEmpty={() => <div>No comments yet</div>}
+           commentFilters={[]} />
+      </div>
+    </>
+  )
+}
+```
+
+
+I don't publish a lot of JavaScript packages, but I think this should work!
 
 
 ## Development

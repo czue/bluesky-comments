@@ -32,3 +32,6 @@ if (typeof window !== 'undefined') {
   // For backward compatibility
   (window as any).initBlueskyComments = BlueskyComments.init;
 }
+
+export { CommentSection } from './CommentSection'
+export { Filters } from './CommentFilters'

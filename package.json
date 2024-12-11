@@ -5,11 +5,12 @@
   "main": "./dist/bluesky-comments.umd.js",
   "module": "./dist/bluesky-comments.es.js",
   "files": [
-    "dist"
+    "dist",
+    "dist/components"
   ],
   "scripts": {
-    "build": "vite build",
-    "watch": "vite build --watch",
+    "build": "vite build && vite build --config vite.components.config.js",
+    "watch": "vite build --watch & vite build --watch --config vite.components.config.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -55,7 +56,7 @@
       "import": "./dist/CommentFilters.es.js",
       "require": "./dist/CommentFilters.umd.js"
     },
-    "./style.css": "./dist/bluesky-comments.css"
+    "./bluesky-comments.css": "./dist/bluesky-comments.css"
   },
   "type": "module"
 }
