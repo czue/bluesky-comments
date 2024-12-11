@@ -1,6 +1,6 @@
 {
   "name": "bluesky-comments",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Embed Bluesky comments on your website",
   "main": "./dist/bluesky-comments.umd.js",
   "module": "./dist/bluesky-comments.es.js",
