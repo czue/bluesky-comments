@@ -4,6 +4,25 @@ Embed Bluesky comments on your website easily.
 
 **[Write up and demo here](https://coryzue.com/writing/bluesky-comments).**
 
+## React Installation
+
+Standard procedure.
+
+### 1. Import
+
+```tsx
+import { BlueskyComments } from 'bluesky-comments';
+```
+
+### 2. Use the component in your React app/page/component
+
+Wherever you want the comments to display, add the component:
+
+```tsx
+<BlueskyComments
+  uri="https://bsky.app/profile/coryzue.com/post/3lbrko5zsgk24"
+/>
+```
 
 ## Installation via CDNs (easiest)
 
