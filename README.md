@@ -71,7 +71,7 @@ Add the following importmap to your page anywhere before you use the library:
 <script type="module">
   import { createElement } from 'react';
   import { createRoot } from 'react-dom/client';
-  import { BlueskyComments } from 'https://unpkg.com/bluesky-comments@0.4.0/dist/bluesky-comments.es.js';
+  import { BlueskyComments } from 'https://unpkg.com/bluesky-comments@<VERSION>/dist/bluesky-comments.es.js';
 
   const author = 'you.bsky.social';
   const container = document.getElementById('bluesky-comments');
@@ -88,11 +88,36 @@ See the [Usage](#usage) section below for details on the API.
 
 ## Usage
 
-### Initializing the library based on the author
+Examples in this section use the React JSX syntax. If you're using a non-React project, you can
+instead use the `createElement` function and pass the react options in.
+
+For example, the following two examples are equivalent:
+
+React JSX:
 
 ```javascript
-const author = 'you.bsky.social';
-BlueskyComments.init('bluesky-comments', {author});
+<BlueskyComments
+  author="you.bsky.social"
+  uri="https://bsky.app/profile/coryzue.com/post/3lbrko5zsgk24"
+/>
+```
+
+Non-React:
+
+```javascript
+root.render(
+  createElement(BlueskyComments, {
+    author: "you.bsky.social",
+    uri: "https://bsky.app/profile/coryzue.com/post/3lbrko5zsgk24",
+  })
+);
+```
+
+### Initializing the library based on the author
+
+
+```javascript
+<BlueskyComments author="you.bsky.social"  />
 ```
 
 If you use this mode, the comments section will use the most popular post by that author that links
@@ -101,13 +126,11 @@ to the current page.
 ### Initializing the library based on a post URL
 
 ```javascript
-const uri = 'https://bsky.social/coryzue.com/posts/3jxgux';
-BlueskyComments.init('bluesky-comments', {uri});
+<BlueskyComments uri="https://bsky.app/profile/coryzue.com/post/3lbrko5zsgk24" />
 ```
 
 If you use this mode, the comments section will use the exact post you specify.
 This usually means you have to add the comments section only *after* you've linked to the article.
-
 
 ### (Advanced) Providing custom default empty states
 
@@ -115,14 +138,16 @@ You can pass in a `onEmpty` callback to handle the case where there are no comme
 (for example, if no post matching the URL is found or there aren't any comments on it yet):
 
 ```javascript
-BlueskyComments.init('bluesky-comments', {
-    uri,
-    author,
-    onEmpty: (details) => {
-      console.error('Failed to load comments:', details);
-      document.getElementById('bluesky-comments').innerHTML =
-        'No comments on this post yet. Details: ' + details.message;
-    },
+<BlueskyComments
+    uri="https://bsky.app/profile/coryzue.com/post/3lbrko5zsgk24"
+    author="you.bsky.social"
+    onEmpty={
+      (details) => {
+        console.error('Failed to load comments:', details);
+        document.getElementById('bluesky-comments').innerHTML =
+          'No comments on this post yet. Details: ' + details.message;
+      }
+    }
 });
 ```
 
@@ -132,26 +157,28 @@ You can pass in an array of filters to the `commentFilters` option. These are fu
 
 A few default filters utilities are provided:
 
-- `BlueskyComments.Filters.NoPins`: Hide comments that are just "📌"
-- `BlueskyComments.Filters.NoLikes`: Hide comments with no likes
+- `BlueskyFilters.NoPins`: Hide comments that are just "📌"
+- `BlueskyFilters.NoLikes`: Hide comments with no likes
 
 You can also use the following utilities to create your own filters:
 
-- `BlueskyComments.Filters.MinLikeCountFilter`: Hide comments with less than a given number of likes
-- `BlueskyComments.Filters.MinCharacterCountFilter`: Hide comments with less than a given number of characters
-- `BlueskyComments.Filters.TextContainsFilter`: Hide comments that contain specific text (case insensitive)
-- `BlueskyComments.Filters.ExactMatchFilter`: Hide comments that match text exactly (case insensitive)
+- `BlueskyFilters.MinLikeCountFilter`: Hide comments with less than a given number of likes
+- `BlueskyFilters.MinCharacterCountFilter`: Hide comments with less than a given number of characters
+- `BlueskyFilters.TextContainsFilter`: Hide comments that contain specific text (case insensitive)
+- `BlueskyFilters.ExactMatchFilter`: Hide comments that match text exactly (case insensitive)
 
 Pass filters using the `commentFilters` option:
 
 ```javascript
-BlueskyComments.init('bluesky-comments', {
+import {BlueskyComments, BlueskyFilters} from 'bluesky-comments';
+
+<BlueskyComments
     // other options here
-    commentFilters: [
-      BlueskyComments.Filters.NoPins,  // Hide pinned comments
-      BlueskyComments.Filters.MinCharacterCountFilter(10), // Hide comments with less than 10 characters
-    ],
-});
+    commentFilters={[
+      BlueskyFilters.NoPins,  // Hide pinned comments
+      BlueskyFilters.MinCharacterCountFilter(10), // Hide comments with less than 10 characters
+    ]}
+/>
 ```
 
 You can also write your own filters, by returning `true` for comments you want to hide:
@@ -160,12 +187,12 @@ You can also write your own filters, by returning `true` for comments you want t
 const NoTwitterLinksFilter = (comment) => {
   return (comment.post.record.text.includes('https://x.com/') || comment.post.record.text.includes('https://twitter.com/'));
 }
-BlueskyComments.init('bluesky-comments', {
+<BlueskyComments
     // other options here
-    commentFilters: [
+    commentFilters={[
       NoTwitterLinksFilter,
     ]
-});
+/>
 ```
 
 ## Usage with npm / yarn in a native JavaScript project
@@ -211,9 +238,12 @@ To develop on this package, you can run:
 
 ```
 npm install
-npm run watch
+npm run dev
 ```
 
-This will watch for changes and copy the built files to the `dist` directory.
-From there you can reference the files in your own project and any updates you make
-should show up instantly.
+This will set up a local development server with a simple page showing comments,
+and watch for changes.
+
+You can also run  `npm run build` (build once) or `npm run watch` (watch for changes)
+ to copy the built files to the `dist` directory.
+From there you can reference the files in your own projects.
