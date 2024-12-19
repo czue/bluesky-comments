@@ -12,18 +12,29 @@ To use this library in a React project, first install the library:
 npm install bluesky-comments
 ```
 
-Then import it in your React app/page/component:
+Then import it (and the CSS) in your React app/page/component:
 
 ```tsx
+import 'bluesky-comments/bluesky-comments.css'
 import { BlueskyComments } from 'bluesky-comments';
 ```
 
-And, wherever you want the comments to display, add the component:
+And use it in any React component like this:
 
-```tsx
-<BlueskyComments
-  uri="https://bsky.app/profile/coryzue.com/post/3lbrko5zsgk24"
-/>
+```javascript
+function App() {
+  return (
+    <>
+      <div>Comments Will Display Below</div>
+        <BlueskyComments
+           author="coryzue.com"
+           uri=""
+           onEmpty={() => <div>No comments yet</div>}
+           commentFilters={[]} />
+      </div>
+    </>
+  )
+}
 ```
 
 ## Non-React Installation via CDN
@@ -194,43 +205,6 @@ const NoTwitterLinksFilter = (comment) => {
     ]
 />
 ```
-
-## Usage with npm / yarn in a native JavaScript project
-
-Install the package:
-
-```bash
-npm install bluesky-comments
-```
-
-Then you can use the library in your projects by importing the CSS and components:
-
-```javascript
-import 'bluesky-comments/bluesky-comments.css'
-import { CommentSection } from "bluesky-comments";
-```
-
-And using them in a React component like this:
-
-```javascript
-function App() {
-  return (
-    <>
-      <div>Comments Will Display Below</div>
-        <CommentSection
-           author="coryzue.com"
-           uri=""
-           onEmpty={() => <div>No comments yet</div>}
-           commentFilters={[]} />
-      </div>
-    </>
-  )
-}
-```
-
-
-I don't publish a lot of JavaScript packages, but I think this should work!
-
 
 ## Development
 
