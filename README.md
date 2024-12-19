@@ -6,17 +6,19 @@ Embed Bluesky comments on your website easily.
 
 ## React Installation
 
-Standard procedure.
+To use this library in a React project, first install the library:
 
-### 1. Import
+```bash
+npm install bluesky-comments
+```
+
+Then import it in your React app/page/component:
 
 ```tsx
 import { BlueskyComments } from 'bluesky-comments';
 ```
 
-### 2. Use the component in your React app/page/component
-
-Wherever you want the comments to display, add the component:
+And, wherever you want the comments to display, add the component:
 
 ```tsx
 <BlueskyComments
@@ -24,9 +26,9 @@ Wherever you want the comments to display, add the component:
 />
 ```
 
-## Installation via CDNs (easiest)
+## Non-React Installation via CDN
 
-There are a few ways to set up the library on your website.
+To add a comments section to any website, follow these steps
 
 ### 1. Add an element to your page where you want the comments to show up
 
@@ -36,9 +38,8 @@ Add something like this to your site:
 <div id="bluesky-comments"></div>
 ```
 
-You can use whatever id you want, but it has to match the value used in `BlueskyComments.init`
-in the later steps.
-
+You can use whatever id you want, but it has to match the container id used in the `getElementById` call
+in the usage step.
 
 ### 2. Add the CSS files
 
@@ -57,56 +58,33 @@ Add the following importmap to your page anywhere before you use the library:
 {
   "imports": {
     "react": "https://esm.sh/react@18",
-    "react-dom": "https://esm.sh/react-dom@18"
+    "react-dom": "https://esm.sh/react-dom@18",
+    "react-dom/client": "https://esm.sh/react-dom@18/client"
   }
 }
 </script>
 ```
 
-### 4. Import and use the library and any other functions you need in an ES module script:
+### 4. Import the library and instantiate the component with React in an ES module script:
 
 ```html
 <script type="module">
+  import { createElement } from 'react';
+  import { createRoot } from 'react-dom/client';
   import { BlueskyComments } from 'https://unpkg.com/bluesky-comments@0.4.0/dist/bluesky-comments.es.js';
-  document.addEventListener('DOMContentLoaded', function() {
-    const author = 'you.bsky.social';
-    if (author) {
-      BlueskyComments.init('bluesky-comments', {author});
+
+  const author = 'you.bsky.social';
+  const container = document.getElementById('bluesky-comments');
+  const root = createRoot(container);
+  root.render(
+    createElement(BlueskyComments, {
+      author: author,
     }
-  });
+  );
 </script>
 ```
 
-See the [Usage](#usage) section for details on the API.
-
-### (Deprecated) Installation using `<script>` tags and UMD
-
-Previous versions of this library recommended installing like this:
-
-```html
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/bluesky-comments@<VERSION>/dist/bluesky-comments.umd.js"></script>
-```
-
-And initializing the comments in a standard `<script>` tag. Both of these approaches work:
-
-```html
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const uri = 'https://bsky.social/coryzue.com/posts/3jxgux';
-    if (uri) {
-      // New API
-      BlueskyComments.init('bluesky-comments', {uri});
-
-      // Legacy API (still supported but deprecated)
-      initBlueskyComments('bluesky-comments', {uri});
-    }
-  });
-</script>
-```
-
-This option is now deprecated with the introduction of ES modules and will be removed in a future version.
+See the [Usage](#usage) section below for details on the API.
 
 ## Usage
 
