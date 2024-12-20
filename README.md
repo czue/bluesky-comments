@@ -85,8 +85,8 @@ Add the following importmap to your page anywhere before you use the library:
   const root = createRoot(container);
   root.render(
     createElement(BlueskyComments, {
-      author: author,
-    }
+      "author": author,
+    })
   );
 </script>
 ```
