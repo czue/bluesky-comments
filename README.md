@@ -4,7 +4,7 @@ Embed Bluesky comments on your website easily.
 
 **[Write up and demo here](https://coryzue.com/writing/bluesky-comments).**
 
-## React Installation
+## Installation in a Node.js project as a React component
 
 To use this library in a React project, first install the library:
 
@@ -32,7 +32,9 @@ function App() {
 }
 ```
 
-## Non-React Installation via CDN
+See the [Usage](#usage) section below for details on the options and API.
+
+## Installation on any website via CDN
 
 To add a comments section to any website, follow these steps
 
