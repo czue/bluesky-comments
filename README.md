@@ -26,12 +26,7 @@ function App() {
   return (
     <>
       <div>Comments Will Display Below</div>
-        <BlueskyComments
-           author="coryzue.com"
-           uri=""
-           onEmpty={() => <div>No comments yet</div>}
-           commentFilters={[]} />
-      </div>
+      <BlueskyComments author="you.bsky.social" />
     </>
   )
 }
