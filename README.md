@@ -91,12 +91,13 @@ Add the following importmap to your page anywhere before you use the library:
 </script>
 ```
 
-See the [Usage](#usage) section below for details on the API.
+See the [Usage](#usage) section below for details on the options and API.
 
 ## Usage
 
-Examples in this section use the React JSX syntax. If you're using a non-React project, you can
-instead use the `createElement` function and pass the react options in.
+Examples in this section use the React JSX syntax. If you're installing on a project that doens't
+use JSX or any build tooling (i.e. a regular website), you can instead use the `createElement`
+function and pass the react options in.
 
 For example, the following two examples are equivalent:
 
@@ -109,7 +110,7 @@ React JSX:
 />
 ```
 
-Non-React:
+Equivalent without JSX:
 
 ```javascript
 root.render(
