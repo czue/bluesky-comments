@@ -4,13 +4,14 @@
   "description": "Embed Bluesky comments on your website",
   "main": "./dist/bluesky-comments.umd.js",
   "module": "./dist/bluesky-comments.es.js",
+  "types": "dist/main.d.ts",
   "files": [
-    "dist",
-    "dist/components"
+    "dist"
   ],
   "scripts": {
-    "build": "vite build && vite build --config vite.components.config.js",
-    "watch": "vite build --watch & vite build --watch --config vite.components.config.js",
+    "dev": "vite --config vite.config.js --port 3003",
+    "build": "vite build",
+    "watch": "vite build --watch",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -24,12 +25,17 @@
   "license": "MIT",
   "dependencies": {
     "@atproto/api": "^0.13.18",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react": "^4.3.3",
-    "vite": "^5.4.11"
+    "vite": "^5.4.11",
+    "vite-plugin-dts": "^4.3.0",
+    "vite-plugin-lib-inject-css": "^2.1.1"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
@@ -48,15 +54,7 @@
       "import": "./dist/bluesky-comments.es.js",
       "require": "./dist/bluesky-comments.umd.js"
     },
-    "./CommentSection": {
-      "import": "./dist/CommentSection.es.js",
-      "require": "./dist/CommentSection.umd.js"
-    },
-    "./Filters": {
-      "import": "./dist/CommentFilters.es.js",
-      "require": "./dist/CommentFilters.umd.js"
-    },
-    "./bluesky-comments.css": "./dist/bluesky-comments.css"
+    "./bluesky-comments.css": "./dist/main.css"
   },
   "type": "module"
 }
