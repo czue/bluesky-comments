@@ -4,7 +4,6 @@
   "description": "Embed Bluesky comments on your website",
   "main": "./dist/bluesky-comments.umd.js",
   "module": "./dist/bluesky-comments.es.js",
-  "types": "dist/main.d.ts",
   "files": [
     "dist"
   ],
@@ -34,8 +33,7 @@
     "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react": "^4.3.3",
     "vite": "^5.4.11",
-    "vite-plugin-dts": "^4.3.0",
-    "vite-plugin-lib-inject-css": "^2.1.1"
+    "vite-plugin-dts": "^4.3.0"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
@@ -54,7 +52,15 @@
       "import": "./dist/bluesky-comments.es.js",
       "require": "./dist/bluesky-comments.umd.js"
     },
-    "./bluesky-comments.css": "./dist/main.css"
+    "./CommentSection": {
+      "import": "./dist/CommentSection.es.js",
+      "require": "./dist/CommentSection.umd.js"
+    },
+    "./Filters": {
+      "import": "./dist/CommentFilters.es.js",
+      "require": "./dist/CommentFilters.umd.js"
+    },
+    "./bluesky-comments.css": "./dist/bluesky-comments.css"
   },
   "type": "module"
 }
