@@ -7,7 +7,7 @@ import { Comment } from './Comment';
 
 const getAtUri = (uri: string): string => {
   if (!uri.startsWith('at://') && uri.includes('bsky.app/profile/')) {
-    const match = uri.match(/profile\/([\w.]+)\/post\/([\w]+)/);
+    const match = uri.match(/profile\/([\w:.]+)\/post\/([\w]+)/);
     if (match) {
       const [, did, postId] = match;
       return `at://${did}/app.bsky.feed.post/${postId}`;
