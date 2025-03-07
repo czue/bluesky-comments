@@ -1,6 +1,16 @@
+a {
+  text-decoration: underline;
+}
+
 .container {
   max-width: 740px;
   margin: 0 auto;
+}
+
+/* small reset*/
+.container * {
+  padding: 0;
+  margin: 0;
 }
 
 .statsBar {
@@ -111,7 +121,6 @@
 }
 
 .container a {
-  text-decoration: none;
   color: inherit;
 }
 
@@ -131,17 +140,33 @@
   margin-top: 0.5rem;
   display: flex;
   width: 100%;
-  max-width: 150px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   opacity: 0.6;
 }
 
+.replyAction {
+  flex-basis: 50%;
+}
 
 .actionsRow {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+}
+
+.screenReader {
+	border: 0 !important;
+	clip: rect(1px, 1px, 1px, 1px) !important;
+	-webkit-clip-path: inset(50%) !important;
+	clip-path: inset(50%) !important;
+	height: 1px !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	padding: 0 !important;
+	position: absolute !important;
+	width: 1px !important;
+	white-space: nowrap !important;
 }
 
