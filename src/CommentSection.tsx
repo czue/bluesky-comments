@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AppBskyFeedDefs, type AppBskyFeedGetPostThread } from '@atproto/api';
 import styles from './CommentSection.module.css';
 import { CommentOptions } from './types';
@@ -28,6 +28,7 @@ export const CommentSection = ({
   );
   const [error, setError] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(5);
+  const lastVisibleIndexRef = useRef(0);
 
   useEffect(() => {
     if (propUri) {
@@ -82,6 +83,42 @@ export const CommentSection = ({
     }
   }, [uri, onEmpty]);
 
+  useEffect(() => {
+    if (visibleCount > lastVisibleIndexRef.current) {
+      const newBlockquotes = document.querySelectorAll(
+        `blockquote[data-index="${lastVisibleIndexRef.current + 1}"]`
+      );
+      if (newBlockquotes.length > 0) {
+        const firstNewBlockquote = newBlockquotes[0];
+        const link = firstNewBlockquote.querySelector('a');
+        if (link) {
+          link.focus();
+        }
+      }
+      lastVisibleIndexRef.current = visibleCount;
+    }
+  }, [visibleCount]);
+
+  const showMore = () => {
+    setVisibleCount((prevCount) => {
+      const newCount = prevCount + 5;
+      // focus on the first new comment
+      setTimeout(() => {
+        const newBlockquotes = document.querySelectorAll(
+          `blockquote[data-index="${prevCount}"]`
+        );
+        if (newBlockquotes.length > 0) {
+          const firstNewBlockquote = newBlockquotes[0];
+          const link = firstNewBlockquote.querySelector('a');
+          if (link) {
+            link.focus();
+          }
+        }
+      }, 0);
+      return newCount;
+    });
+  };
+
   if (!uri) return null;
 
   if (error) {
@@ -91,10 +128,6 @@ export const CommentSection = ({
   if (!thread) {
     return <p className={styles.loadingText}>Loading comments...</p>;
   }
-
-  const showMore = () => {
-    setVisibleCount((prevCount) => prevCount + 5);
-  };
 
   let postUrl: string = uri;
   if (uri.startsWith('at://')) {
@@ -116,20 +149,22 @@ export const CommentSection = ({
       <PostSummary postUrl={postUrl} post={thread.post} />
       <hr className={styles.divider} />
       <div className={styles.commentsList}>
-        {sortedReplies.slice(0, visibleCount).map((reply) => {
+        {sortedReplies.slice(0, visibleCount).map((reply, index) => {
           if (!AppBskyFeedDefs.isThreadViewPost(reply)) return null;
           return (
             <Comment
               key={reply.post.uri}
               comment={reply}
               filters={commentFilters}
+              dataIndex={index}
             />
           );
         })}
         {visibleCount < sortedReplies.length && (
-          <a onClick={showMore} className={styles.showMoreButton}>
+          <button onClick={showMore} className={styles.showMoreButton}>
             Show more comments
-          </a>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="M15.854 7.646a.5.5 0 0 1 .001.707l-5.465 5.484a.55.55 0 0 1-.78 0L4.147 8.353a.5.5 0 1 1 .708-.706L10 12.812l5.147-5.165a.5.5 0 0 1 .707-.001"/></svg>
+          </button>
         )}
       </div>
     </div>

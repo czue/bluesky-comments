@@ -70,9 +70,17 @@ a {
 }
 
 .container .showMoreButton {
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
-  text-decoration: underline;
+  margin: .5rem auto;
+    font-size: 0.875rem;
+    width: fit-content;
+    padding: .25rem .5rem;
+    display: flex;
+    align-items: center;
+    gap: .2rem;
+    background: none;
+    border: 1px solid;
+    border-color: inherit;
+    border-radius: .2rem;
 }
 
 .container .showMoreButton:hover {

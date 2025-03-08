@@ -7,7 +7,7 @@ type CommentProps = {
   filters?: Array<(arg: any) => boolean>;
 };
 
-export const Comment = ({ comment, filters }: CommentProps) => {
+export const Comment = ({ comment, filters, dataIndex }: CommentProps) => {
   const author = comment.post.author;
   const avatarClassName = styles.avatar;
 
@@ -16,7 +16,7 @@ export const Comment = ({ comment, filters }: CommentProps) => {
   if (filters && !filters.every((filter) => !filter(comment))) return null;
 
   return (
-    <blockquote className={styles.commentContainer}>
+    <blockquote className={styles.commentContainer} data-index={dataIndex}>
       <div className={styles.commentContent}>
         <a
           className={styles.authorLink}
@@ -45,10 +45,10 @@ export const Comment = ({ comment, filters }: CommentProps) => {
       </div>
       {comment.replies && comment.replies.length > 0 && (
         <div className={styles.repliesContainer}>
-          {comment.replies.sort(sortByLikes).map((reply) => {
+          {comment.replies.sort(sortByLikes).map((reply, index) => {
             if (!AppBskyFeedDefs.isThreadViewPost(reply)) return null;
             return (
-              <Comment key={reply.post.uri} comment={reply} filters={filters} />
+              <Comment key={reply.post.uri} comment={reply} filters={filters}/>
             );
           })}
         </div>
@@ -116,7 +116,7 @@ const Actions = ({ post, author }: { post: AppBskyFeedDefs.PostView }) => (
     <div className={`${styles.actionsRow}, ${styles.replyAction}`}>
       <p className="text-xs">
         <a className="replyLink" href={`https://bsky.app/profile/${author.did}/post/${post.uri.split('/').pop()}`} target="_blank" rel="noreferrer noopener">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="M7.354 3.646a.5.5 0 0 1 0 .708L3.707 8H10.5a7.5 7.5 0 0 1 7.5 7.5a.5.5 0 0 1-1 0A6.5 6.5 0 0 0 10.5 9H3.707l3.647 3.646a.5.5 0 0 1-.708.708l-4.5-4.5a.5.5 0 0 1 0-.708l4.5-4.5a.5.5 0 0 1 .708 0"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path fill="currentColor" d="M17.25 4a.75.75 0 0 1 .75.75A7.25 7.25 0 0 1 10.75 12H4.56l3.22 3.22a.75.75 0 1 1-1.06 1.06l-4.5-4.5a.75.75 0 0 1 0-1.06l4.5-4.5a.75.75 0 0 1 1.06 1.06L4.56 10.5h6.19a5.75 5.75 0 0 0 5.75-5.75a.75.75 0 0 1 .75-.75"/></svg>
         <span className={styles.screenReader}>Reply to @{author.handle}</span>
         </a>
       </p>
