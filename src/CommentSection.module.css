@@ -157,6 +157,10 @@ a {
   flex-basis: 70%;
 }
 
+.replyAction svg {
+  vertical-align: bottom;
+}
+
 .actionsRow {
   display: flex;
   align-items: center;
