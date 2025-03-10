@@ -5,6 +5,7 @@ import styles from './CommentSection.module.css';
 type CommentProps = {
   comment: AppBskyFeedDefs.ThreadViewPost;
   filters?: Array<(arg: any) => boolean>;
+  dataIndex?: number;
 };
 
 export const Comment = ({ comment, filters, dataIndex }: CommentProps) => {
@@ -48,7 +49,7 @@ export const Comment = ({ comment, filters, dataIndex }: CommentProps) => {
           {comment.replies.sort(sortByLikes).map((reply, index) => {
             if (!AppBskyFeedDefs.isThreadViewPost(reply)) return null;
             return (
-              <Comment key={reply.post.uri} comment={reply} filters={filters}/>
+              <Comment key={reply.post.uri} comment={reply} filters={filters} />
             );
           })}
         </div>
@@ -57,7 +58,7 @@ export const Comment = ({ comment, filters, dataIndex }: CommentProps) => {
   );
 };
 
-const Actions = ({ post, author }: { post: AppBskyFeedDefs.PostView }) => (
+const Actions = ({ post, author }: { post: AppBskyFeedDefs.PostView, author: any }) => (
   <div className={styles.actionsContainer}>
     <div className={styles.actionsRow}>
       <svg
