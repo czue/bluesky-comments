@@ -1,6 +1,16 @@
+a {
+  text-decoration: underline;
+}
+
 .container {
   max-width: 740px;
   margin: 0 auto;
+}
+
+/* small reset*/
+.container * {
+  padding: 0;
+  margin: 0;
 }
 
 .statsBar {
@@ -60,9 +70,17 @@
 }
 
 .container .showMoreButton {
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
-  text-decoration: underline;
+  margin: .5rem auto;
+    font-size: 0.875rem;
+    width: fit-content;
+    padding: .25rem .5rem;
+    display: flex;
+    align-items: center;
+    gap: .2rem;
+    background: none;
+    border: 1px solid;
+    border-color: inherit;
+    border-radius: .2rem;
 }
 
 .container .showMoreButton:hover {
@@ -111,7 +129,6 @@
 }
 
 .container a {
-  text-decoration: none;
   color: inherit;
 }
 
@@ -131,17 +148,36 @@
   margin-top: 0.5rem;
   display: flex;
   width: 100%;
-  max-width: 150px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  opacity: 0.6;
 }
 
+.replyAction {
+  flex-basis: 70%;
+}
+
+.replyAction svg {
+  vertical-align: bottom;
+}
 
 .actionsRow {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+}
+
+.screenReader {
+	border: 0 !important;
+	clip: rect(1px, 1px, 1px, 1px) !important;
+	-webkit-clip-path: inset(50%) !important;
+	clip-path: inset(50%) !important;
+	height: 1px !important;
+	margin: -1px !important;
+	overflow: hidden !important;
+	padding: 0 !important;
+	position: absolute !important;
+	width: 1px !important;
+	white-space: nowrap !important;
 }
 
