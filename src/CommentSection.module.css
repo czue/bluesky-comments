@@ -1,7 +1,3 @@
-a {
-  text-decoration: underline;
-}
-
 .container {
   max-width: 740px;
   margin: 0 auto;
@@ -28,6 +24,10 @@ a {
   align-items: center;
   gap: 0.25rem;
   white-space: nowrap;
+}
+
+.container a {
+  text-decoration: underline;
 }
 
 .container a.link {
