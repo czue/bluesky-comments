@@ -245,5 +245,5 @@ This will set up a local development server with a simple page showing comments,
 and watch for changes.
 
 You can also run  `npm run build` (build once) or `npm run watch` (watch for changes)
- to copy the built files to the `dist` directory.
+to copy the built files to the `dist` directory.
 From there you can reference the files in your own projects.
