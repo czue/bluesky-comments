@@ -15,7 +15,7 @@ const MinCharacterCountFilter = (
     if (!AppBskyFeedPost.isRecord(comment.post.record)) {
       return false;
     }
-    return comment.post.record.text.length < min;
+    return (comment.post.record as AppBskyFeedPost.Record).text.length < min;
   };
 };
 
@@ -26,7 +26,7 @@ const TextContainsFilter = (
     if (!AppBskyFeedPost.isRecord(comment.post.record)) {
       return false;
     }
-    return comment.post.record.text.toLowerCase().includes(text.toLowerCase());
+    return (comment.post.record as AppBskyFeedPost.Record).text.toLowerCase().includes(text.toLowerCase());
   };
 };
 
@@ -37,7 +37,7 @@ const ExactMatchFilter = (
     if (!AppBskyFeedPost.isRecord(comment.post.record)) {
       return false;
     }
-    return comment.post.record.text.toLowerCase() === text.toLowerCase();
+    return (comment.post.record as AppBskyFeedPost.Record).text.toLowerCase() === text.toLowerCase();
   };
 };
 

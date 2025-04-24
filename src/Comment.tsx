@@ -39,7 +39,7 @@ export const Comment = ({ comment, filters, dataIndex }: CommentProps) => {
             <span className={styles.handle}>@{author.handle}</span>
           </p>
         </a>
-          <p>{comment.post.record.text}</p>
+          {AppBskyFeedPost.isRecord(comment.post.record) && <p>{(comment.post.record as AppBskyFeedPost.Record).text}</p>}
             <div className={styles.commentFooter}>
               <Actions post={comment.post} author={author} />
             </div>
@@ -134,5 +134,5 @@ const sortByLikes = (a: unknown, b: unknown) => {
   ) {
     return 0;
   }
-  return (b.post.likeCount ?? 0) - (a.post.likeCount ?? 0);
+  return ((b as AppBskyFeedDefs.ThreadViewPost).post.likeCount ?? 0) - ((a as AppBskyFeedDefs.ThreadViewPost).post.likeCount ?? 0);
 };
