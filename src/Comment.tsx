@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppBskyFeedDefs, AppBskyFeedPost } from '@atproto/api';
 import styles from './CommentSection.module.css';
+import { getPostText, sortThreadPostsByLikes } from './types';
 
 type CommentProps = {
   comment: AppBskyFeedDefs.ThreadViewPost;
@@ -39,14 +40,14 @@ export const Comment = ({ comment, filters, dataIndex }: CommentProps) => {
             <span className={styles.handle}>@{author.handle}</span>
           </p>
         </a>
-          {AppBskyFeedPost.isRecord(comment.post.record) && <p>{(comment.post.record as AppBskyFeedPost.Record).text}</p>}
+          <p>{getPostText(comment.post.record)}</p>
             <div className={styles.commentFooter}>
               <Actions post={comment.post} author={author} />
             </div>
       </div>
       {comment.replies && comment.replies.length > 0 && (
         <div className={styles.repliesContainer}>
-          {comment.replies.sort(sortByLikes).map((reply, index) => {
+          {comment.replies.sort(sortThreadPostsByLikes).map((reply, index) => {
             if (!AppBskyFeedDefs.isThreadViewPost(reply)) return null;
             return (
               <Comment key={reply.post.uri} comment={reply} filters={filters} />
@@ -127,12 +128,3 @@ const Actions = ({ post, author }: { post: AppBskyFeedDefs.PostView, author: any
 
 
 
-const sortByLikes = (a: unknown, b: unknown) => {
-  if (
-    !AppBskyFeedDefs.isThreadViewPost(a) ||
-    !AppBskyFeedDefs.isThreadViewPost(b)
-  ) {
-    return 0;
-  }
-  return ((b as AppBskyFeedDefs.ThreadViewPost).post.likeCount ?? 0) - ((a as AppBskyFeedDefs.ThreadViewPost).post.likeCount ?? 0);
-};
