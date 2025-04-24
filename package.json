@@ -24,13 +24,13 @@
   "license": "MIT",
   "dependencies": {
     "@atproto/api": "^0.15.4",
-    "react": ">=19.1.0",
-    "react-dom": ">=19.1.0"
+    "react": "<19",
+    "react-dom": "<19"
   },
   "devDependencies": {
     "@types/node": "^22.14.1",
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.4.1",
     "vite": "^6.3.3",
     "vite-plugin-dts": "^4.5.3"
