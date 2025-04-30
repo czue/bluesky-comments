@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AppBskyFeedDefs, type AppBskyFeedGetPostThread } from '@atproto/api';
 import styles from './CommentSection.module.css';
-import { CommentOptions } from './types';
+import { CommentOptions, sortThreadPostsByLikes } from './types';
 import { PostSummary } from './PostSummary';
 import { Comment } from './Comment';
 
@@ -142,7 +142,7 @@ export const CommentSection = ({
       </div>
     );
   }
-  const sortedReplies = thread.replies.sort(sortByLikes);
+  const sortedReplies = thread.replies.sort(sortThreadPostsByLikes);
 
   return (
     <div className={styles.container}>
@@ -201,12 +201,3 @@ const getPostThread = async (uri: string) => {
   return data.thread;
 };
 
-const sortByLikes = (a: unknown, b: unknown) => {
-  if (
-    !AppBskyFeedDefs.isThreadViewPost(a) ||
-    !AppBskyFeedDefs.isThreadViewPost(b)
-  ) {
-    return 0;
-  }
-  return (b.post.likeCount ?? 0) - (a.post.likeCount ?? 0);
-};

@@ -1,4 +1,5 @@
-import { AppBskyFeedPost, type AppBskyFeedDefs } from '@atproto/api';
+import { type AppBskyFeedDefs } from '@atproto/api';
+import { getPostText } from './types';
 
 const MinLikeCountFilter = (
   min: number
@@ -12,10 +13,7 @@ const MinCharacterCountFilter = (
   min: number
 ): ((comment: AppBskyFeedDefs.ThreadViewPost) => boolean) => {
   return (comment: AppBskyFeedDefs.ThreadViewPost) => {
-    if (!AppBskyFeedPost.isRecord(comment.post.record)) {
-      return false;
-    }
-    return comment.post.record.text.length < min;
+    return getPostText(comment.post.record).length < min;
   };
 };
 
@@ -23,10 +21,7 @@ const TextContainsFilter = (
   text: string
 ): ((comment: AppBskyFeedDefs.ThreadViewPost) => boolean) => {
   return (comment: AppBskyFeedDefs.ThreadViewPost) => {
-    if (!AppBskyFeedPost.isRecord(comment.post.record)) {
-      return false;
-    }
-    return comment.post.record.text.toLowerCase().includes(text.toLowerCase());
+    return getPostText(comment.post.record).toLowerCase().includes(text.toLowerCase());
   };
 };
 
@@ -34,10 +29,7 @@ const ExactMatchFilter = (
   text: string
 ): ((comment: AppBskyFeedDefs.ThreadViewPost) => boolean) => {
   return (comment: AppBskyFeedDefs.ThreadViewPost) => {
-    if (!AppBskyFeedPost.isRecord(comment.post.record)) {
-      return false;
-    }
-    return comment.post.record.text.toLowerCase() === text.toLowerCase();
+    return getPostText(comment.post.record).toLowerCase() === text.toLowerCase();
   };
 };
 
