@@ -7,6 +7,7 @@
   "files": [
     "dist"
   ],
+  "types": "./dist/main.d.ts",
   "scripts": {
     "dev": "vite --config vite.config.js --port 3003",
     "build": "vite build",
@@ -49,16 +50,34 @@
   "homepage": "https://github.com/czue/bluesky-comments#readme",
   "exports": {
     ".": {
-      "import": "./dist/bluesky-comments.es.js",
-      "require": "./dist/bluesky-comments.umd.js"
+      "import": {
+        "types": "./dist/main.d.ts",
+        "default": "./dist/bluesky-comments.es.js"
+      },
+      "require": {
+        "types": "./dist/main.d.ts",
+        "default": "./dist/bluesky-comments.umd.js"
+      }
     },
     "./CommentSection": {
-      "import": "./dist/CommentSection.es.js",
-      "require": "./dist/CommentSection.umd.js"
+      "import": {
+        "types": "./dist/components/CommentSection.d.ts",
+        "default": "./dist/CommentSection.es.js"
+      },
+      "require": {
+        "types": "./dist/components/CommentSection.d.ts",
+        "default": "./dist/CommentSection.umd.js"
+      }
     },
     "./Filters": {
-      "import": "./dist/CommentFilters.es.js",
-      "require": "./dist/CommentFilters.umd.js"
+      "import": {
+        "types": "./dist/components/CommentFilters.d.ts",
+        "default": "./dist/CommentFilters.es.js"
+      },
+      "require": {
+        "types": "./dist/components/CommentFilters.d.ts",
+        "default": "./dist/CommentFilters.umd.js"
+      }
     },
     "./bluesky-comments.css": "./dist/bluesky-comments.css"
   },
