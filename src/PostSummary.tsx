@@ -8,6 +8,9 @@ type PostSummaryProps = {
 };
 
 export const PostSummary = ({ postUrl, post }: PostSummaryProps) => {
+  // Create the Deer URL by replacing bsky.app with deer.social
+  const deerUrl = postUrl.replace('bsky.app', 'deer.social');
+
   return (
     <>
       <a href={postUrl} target="_blank" rel="noreferrer noopener">
@@ -76,6 +79,15 @@ export const PostSummary = ({ postUrl, post }: PostSummaryProps) => {
           rel="noreferrer noopener"
         >
           replying on Bluesky
+        </a>
+        {' or '}
+        <a
+          className={styles.link}
+          href={deerUrl}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Deer
         </a>
         .
       </p>
