@@ -9,11 +9,21 @@ const getAtUri = (uri: string): string => {
   if (!uri.startsWith('at://') && uri.includes('bsky.app/profile/')) {
     const match = uri.match(/profile\/([\w:.]+)\/post\/([\w]+)/);
     if (match) {
-      const [, did, postId] = match;
-      return `at://${did}/app.bsky.feed.post/${postId}`;
+      const [, identifier, postId] = match;
+      return `at://${identifier}/app.bsky.feed.post/${postId}`;
     }
   }
   return uri;
+};
+
+// Function to check if a string is a DID
+const isDID = (identifier: string): boolean => {
+  return identifier.startsWith('did:');
+};
+
+// Function to create profile URL that works with both handles and DIDs
+const createProfileUrl = (identifier: string, postId: string): string => {
+  return `https://bsky.app/profile/${identifier}/post/${postId}`;
 };
 
 export const CommentSection = ({
@@ -21,6 +31,7 @@ export const CommentSection = ({
   author,
   onEmpty,
   commentFilters,
+  enableDeer,
 }: CommentOptions) => {
   const [uri, setUri] = useState<string | null>(null);
   const [thread, setThread] = useState<AppBskyFeedDefs.ThreadViewPost | null>(
@@ -131,14 +142,14 @@ export const CommentSection = ({
 
   let postUrl: string = uri;
   if (uri.startsWith('at://')) {
-    const [, , did, _, rkey] = uri.split('/');
-    postUrl = `https://bsky.app/profile/${did}/post/${rkey}`;
+    const [, , identifier, _, rkey] = uri.split('/');
+    postUrl = createProfileUrl(identifier, rkey);
   }
 
   if (!thread.replies || thread.replies.length === 0) {
     return (
       <div className={styles.container}>
-        <PostSummary postUrl={postUrl} post={thread.post} />
+        <PostSummary postUrl={postUrl} post={thread.post} enableDeer={enableDeer} />
       </div>
     );
   }
@@ -146,7 +157,7 @@ export const CommentSection = ({
 
   return (
     <div className={styles.container}>
-      <PostSummary postUrl={postUrl} post={thread.post} />
+      <PostSummary postUrl={postUrl} post={thread.post} enableDeer={enableDeer} />
       <hr className={styles.divider} />
       <div className={styles.commentsList}>
         {sortedReplies.slice(0, visibleCount).map((reply, index) => {

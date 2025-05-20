@@ -5,9 +5,13 @@ import styles from './CommentSection.module.css';
 type PostSummaryProps = {
   postUrl: string;
   post: AppBskyFeedDefs.PostView;
+  enableDeer?: boolean; // Optional flag to include Deer link
 };
 
-export const PostSummary = ({ postUrl, post }: PostSummaryProps) => {
+export const PostSummary = ({ postUrl, post, enableDeer = false }: PostSummaryProps) => {
+  // Create the Deer URL by replacing bsky.app with deer.social
+  const deerUrl = postUrl.replace('bsky.app', 'deer.social');
+
   return (
     <>
       <a href={postUrl} target="_blank" rel="noreferrer noopener">
@@ -77,6 +81,19 @@ export const PostSummary = ({ postUrl, post }: PostSummaryProps) => {
         >
           replying on Bluesky
         </a>
+        {enableDeer && (
+          <>
+            {' or '}
+            <a
+              className={styles.link}
+              href={deerUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              Deer
+            </a>
+          </>
+        )}
         .
       </p>
     </>

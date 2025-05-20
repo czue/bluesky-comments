@@ -10,6 +10,7 @@ export interface CommentOptions {
   author?: string;
   commentFilters?: Array<(arg: any) => boolean>;
   onEmpty?: (details: CommentEmptyDetails) => void;
+  enableDeer?: boolean;
 }
 
 /**
