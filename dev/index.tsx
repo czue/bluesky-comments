@@ -8,6 +8,7 @@ const App = () => (
     <h1>Testing Bluesky Comments Component</h1>
     <BlueskyComments
       uri="https://bsky.app/profile/coryzue.com/post/3lbrko5zsgk24"
+      enableDeer={true}
       commentFilters={[
         BlueskyFilters.NoPins, // Hide pinned comments
         BlueskyFilters.MinCharacterCountFilter(10), // Hide comments with less than 10 characters

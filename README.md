@@ -123,6 +123,9 @@ root.render(
 
 ### Initializing the library based on the author
 
+*Note: this functionality is dependent on a flakey API and is not very reliable.
+[More information here](https://github.com/czue/bluesky-comments/issues/26).*
+
 
 ```javascript
 <BlueskyComments author="you.bsky.social"  />
@@ -196,40 +199,24 @@ const NoTwitterLinksFilter = (comment) => {
   return (comment.post.record.text.includes('https://x.com/') || comment.post.record.text.includes('https://twitter.com/'));
 }
 <BlueskyComments
-    // other options here
-    commentFilters={[
-      NoTwitterLinksFilter,
-    ]
+  // other options here
+  commentFilters={[
+    NoTwitterLinksFilter,
+  ]
 />
 ```
 
-### (Removed) Legacy installation using `<script>` tags and UMD
+### Enabling deer.social links
 
-Previous versions of this library recommended installing like this:
+If you'd like to include links to [deer.social](https://deer.social/) in addition to BlueSky,
+you can pass the `enableDeer` parameter when initializing the library:
 
-```html
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/bluesky-comments@<VERSION>/dist/bluesky-comments.umd.js"></script>
+```javascript
+<BlueskyComments
+  // other options
+  enableDeer=enableDeer={true}
+/>
 ```
-
-And initializing the comments in a standard `<script>` tag with an `init` function:
-
-```html
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const uri = 'https://bsky.social/coryzue.com/posts/3jxgux';
-    if (uri) {
-      BlueskyComments.init('bluesky-comments', {uri});
-
-      // Legacy API (still supported but deprecated)
-      initBlueskyComments('bluesky-comments', {uri});
-    }
-  });
-</script>
-```
-
-This option has been removed in version 0.9.0 and new projects should use the ES module syntax above.
 
 
 ## Development
