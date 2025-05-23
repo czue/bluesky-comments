@@ -123,6 +123,9 @@ root.render(
 
 ### Initializing the library based on the author
 
+*Note: this functionality is dependent on a flakey API and is not very reliable.
+[More information here](https://github.com/czue/bluesky-comments/issues/26).*
+
 
 ```javascript
 <BlueskyComments author="you.bsky.social"  />
