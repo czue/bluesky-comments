@@ -219,35 +219,6 @@ you can pass the `enableDeer` parameter when initializing the library:
 ```
 
 
-### (Removed) Legacy installation using `<script>` tags and UMD
-
-Previous versions of this library recommended installing like this:
-
-```html
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/bluesky-comments@<VERSION>/dist/bluesky-comments.umd.js"></script>
-```
-
-And initializing the comments in a standard `<script>` tag with an `init` function:
-
-```html
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const uri = 'https://bsky.social/coryzue.com/posts/3jxgux';
-    if (uri) {
-      BlueskyComments.init('bluesky-comments', {uri});
-
-      // Legacy API (still supported but deprecated)
-      initBlueskyComments('bluesky-comments', {uri});
-    }
-  });
-</script>
-```
-
-This option has been removed in version 0.9.0 and new projects should use the ES module syntax above.
-
-
 ## Development
 
 To develop on this package, you can run:
