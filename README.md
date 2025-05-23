@@ -199,12 +199,25 @@ const NoTwitterLinksFilter = (comment) => {
   return (comment.post.record.text.includes('https://x.com/') || comment.post.record.text.includes('https://twitter.com/'));
 }
 <BlueskyComments
-    // other options here
-    commentFilters={[
-      NoTwitterLinksFilter,
-    ]
+  // other options here
+  commentFilters={[
+    NoTwitterLinksFilter,
+  ]
 />
 ```
+
+### Enabling deer.social links
+
+If you'd like to include links to [deer.social](https://deer.social/) in addition to BlueSky,
+you can pass the `enableDeer` parameter when initializing the library:
+
+```javascript
+<BlueskyComments
+  // other options
+  enableDeer=enableDeer={true}
+/>
+```
+
 
 ### (Removed) Legacy installation using `<script>` tags and UMD
 
