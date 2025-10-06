@@ -65,8 +65,8 @@ Add the following importmap to your page anywhere before you use the library:
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@18",
-    "react-dom/client": "https://esm.sh/react-dom@18/client"
+    "react": "https://esm.sh/react@19",
+    "react-dom/client": "https://esm.sh/react-dom@19/client"
   }
 }
 </script>

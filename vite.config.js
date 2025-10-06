@@ -6,7 +6,9 @@ import dts from 'vite-plugin-dts';
 export default defineConfig(({ command }) => {
   if (command === 'serve') {
     return {
-      plugins: [react()],
+      plugins: [react({
+        jsxRuntime: 'classic'
+      })],
       root: path.resolve(__dirname, 'dev'),
       build: {
         outDir: path.resolve(__dirname, 'dist'),
@@ -14,7 +16,9 @@ export default defineConfig(({ command }) => {
     };
   } else {
     return {
-      plugins: [react(), dts()],
+      plugins: [react({
+        jsxRuntime: 'classic'
+      }), dts()],
       define: {
         // This adds a global process.env object which prevents errors
         'process.env': {},
